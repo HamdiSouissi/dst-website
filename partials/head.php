@@ -111,7 +111,7 @@ $jsonLd = [
 
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&amp;display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&amp;family=Inter:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=1.1.2">
+<link rel="stylesheet" href="assets/css/style.css?v=1.1.3">
 
 <script>
 /* JS disponible ? (dégradation gracieuse) */

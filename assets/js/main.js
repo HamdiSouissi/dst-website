@@ -4,10 +4,10 @@
    ========================================================================== */
 
 import { initHero, refreshHero } from './hero.js';
-import { initColdChain } from './coldchain.js';
-import { initFleet } from './fleet.js?v=1.1.2';
+import { initColdChain, positionColdCurveVan } from './coldchain.js?v=1.1.3';
+import { initFleet } from './fleet.js?v=1.1.3';
 import { initMap } from './map.js';
-import { initQuote } from './quote.js?v=1.1.2';
+import { initQuote } from './quote.js?v=1.1.3';
 import { initCounters } from './counters.js';
 import { initRoute } from './route.js';
 
@@ -762,13 +762,9 @@ function runPreloader(gsap) {
         const fill = $('[data-preloader-fill]', preloader);
         const status = $('[data-preloader-status]', preloader);
         const mark = $('.logo-mark--preloader', preloader);
-        const letters = $$('.logo-letter', preloader);
-        const flakes = $$('.logo-flake', preloader);
 
         if (mark) {
-            gsap.set(mark.querySelector('.logo-frame'), { drawSVG: '0%' });
-            gsap.set(letters, { opacity: 0 });
-            gsap.set(flakes, { opacity: 0, rotate: -60 });
+            gsap.set(mark, { opacity: 0, scale: .82, transformOrigin: '50% 50%' });
         }
         gsap.set(fill, { scaleX: .06 });
         const value = { t: 20 };
@@ -789,9 +785,7 @@ function runPreloader(gsap) {
         });
 
         if (mark) {
-            tl.to(mark.querySelector('.logo-frame'), { drawSVG: '100%', duration: .5, ease: 'power2.out' }, 0)
-                .to(letters, { opacity: 1, duration: .3, stagger: .06 }, .18)
-                .to(flakes, { opacity: 1, rotate: 0, duration: .6, ease: 'power3.out' }, .28);
+            tl.to(mark, { opacity: 1, scale: 1, duration: .6, ease: 'power3.out' }, 0);
         }
         tl.to(fill, { scaleX: .9, duration: .78, ease: 'power2.inOut' }, .1)
             .to(value, {
@@ -959,6 +953,7 @@ function noGsapFallback() {
     docEl.classList.add('preloader-done');
     $$('.sector__shutter').forEach((s) => { s.style.display = 'none'; });
     $$('[data-cold-curve]').forEach((p) => { p.style.strokeDashoffset = '0'; });
+    positionColdCurveVan(1);
     $$('[data-commit-line]').forEach((s) => { s.style.transform = 'none'; });
     const proof = $('[data-cold-proof]');
     if (proof) proof.classList.add('is-visible');

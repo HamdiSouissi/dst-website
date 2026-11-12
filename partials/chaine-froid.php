@@ -56,6 +56,14 @@ $steps = [
                               d="M84 240 C130 232 160 246 206 238 S280 224 330 232 S410 244 456 234 S540 220 588 228 S680 238 720 230"
                               stroke="#FFD23F" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1" stroke-dashoffset="1"/>
                         <circle class="cold__curve-dot" data-cold-dot cx="720" cy="230" r="4.5" fill="#FFD23F"/>
+                        <g class="cold__curve-van" data-cold-van transform="translate(84 240)" aria-hidden="true">
+                            <circle r="17" fill="#0E0D0B" stroke="#FFD23F" stroke-width="1.6"/>
+                            <g transform="translate(-11.5 -10.5) scale(.96)" fill="none" stroke="#FFD23F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 6h11v10H2zM13 9h4.5l3.5 3.5V16h-8"/>
+                                <circle cx="6.5" cy="18" r="2"/>
+                                <circle cx="17.5" cy="18" r="2"/>
+                            </g>
+                        </g>
 
                         <g class="cold__road" aria-hidden="true">
                             <path d="M20 330 L330 250 H610 L748 330 Z" fill="#171512"/>

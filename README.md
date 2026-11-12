@@ -132,7 +132,10 @@ Le site est livré **complet et fonctionnel** avec :
 
 - **4 photos détourées de camionnettes** (Master, Transit Custom, Jumpy, Caddy) dans
   `assets/img/flotte/`, en WebP transparent, utilisées dans le hero, le showroom et le formulaire.
-  Ce sont des visuels photoréalistes de démonstration, pas encore les véhicules réels de DST ;
+  Le **logo officiel DST en noir** est apposé sur le panneau latéral comme un habillage adhésif ;
+  ce sont des visuels photoréalistes de démonstration, pas encore les véhicules réels de DST ;
+- le **logo officiel** fourni (`assets/img/logo-dst.svg`), décliné en citron pour l'en-tête, le pied
+  de page et le préchargeur, et en noir pour les favicons, l'Open Graph et l'habillage des vans ;
 - des **photographies d'illustration** dans `assets/img/secteurs/` et `assets/img/chargement.webp`
   (visuels de démonstration, à remplacer par les photos réelles de la flotte et des livraisons) ;
 - une **vidéo de hero** générée à partir de l'image de Paris (`assets/video/hero.mp4`), 8 s, 170 Ko,
@@ -165,13 +168,13 @@ config.php                 Toutes les données modifiables
 send.php                   Traitement du formulaire (JSON)
 partials/
   head.php                 Métas, SEO, JSON-LD LocalBusiness + FAQPage, polices
-  logo.php                 Monogramme DST animable
+  logo.php                 Logo officiel DST (SVG citron) + lockup
   icons.php                Icônes au trait, réseaux sociaux, secours camionnettes SVG
   preloader.php            Préchargeur thermomètre + portes de caisson
   header.php               Header fixe, nav, menu mobile, barre de progression
   hero.php                 Hero vidéo, photo camionnette, thermomètre, chiffres
   marquee.php              Bandeau des secteurs
-  chaine-froid.php         Section épinglée, courbe de température
+  chaine-froid.php         Section épinglée, courbe de température + camion suiveur
   services.php             Liste éditoriale au survol / accordéon mobile
   flotte.php               Showroom 4 véhicules
   zone.php                 Carte réelle de l'Île-de-France (8 départements)
@@ -255,7 +258,10 @@ storage/                   Données du formulaire (protégées)
   pour éviter tout décalage de mise en page.
 - Si les CDN d'animation sont indisponibles, le repli sans GSAP garde le formulaire, le showroom de la
   flotte et la carte interactifs ; seules les mises en scène disparaissent.
-- Les SVG restants (carte, logo, icônes) sont inline : ils héritent des couleurs du thème et restent nets.
+- Une petite camionnette suit la courbe de relevé de température dans la section « chaîne du froid » ;
+  le repli sans GSAP la place directement au point de livraison.
+- La carte et les icônes restent inline ; le logo officiel est un SVG externe décliné en noir,
+  citron et givre pour s’adapter au fond sans perdre en netteté.
 - Le formulaire conserve un brouillon dans `sessionStorage` : un retour arrière ne perd aucune saisie.
 - Aucun témoignage n'est inventé : `testimonials` est vide et la section n'existe pas tant que le client
   n'a pas fourni de vrais avis.

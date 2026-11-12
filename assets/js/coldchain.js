@@ -1,8 +1,24 @@
 /* ==========================================================================
    DST — coldchain.js
    Section épinglée « La chaîne du froid » : étapes, courbe de température,
-   camionnette qui progresse sur la route.
+   petite camionnette qui suit la courbe de température.
    ========================================================================== */
+
+export function positionColdCurveVan(progress = 1) {
+    const curve = document.querySelector('[data-cold-curve]');
+    const van = document.querySelector('[data-cold-van]');
+    if (!curve || !van || !curve.getPointAtLength) return;
+
+    const length = curve.getTotalLength();
+    const p = Math.max(0, Math.min(1, progress));
+    const at = (t) => curve.getPointAtLength(length * Math.max(0, Math.min(1, t)));
+    const point = at(p);
+    const before = at(p - .006);
+    const after = at(p + .006);
+    const angle = Math.atan2(after.y - before.y, after.x - before.x) * 180 / Math.PI;
+    const tilt = Math.max(-12, Math.min(12, angle));
+    van.setAttribute('transform', `translate(${point.x.toFixed(2)} ${point.y.toFixed(2)}) rotate(${tilt.toFixed(2)})`);
+}
 
 export function initColdChain(gsap, ScrollTrigger, reduced) {
     const section = document.querySelector('.cold');
@@ -11,7 +27,6 @@ export function initColdChain(gsap, ScrollTrigger, reduced) {
     const pinEl = section.querySelector('[data-cold-pin]');
     const curve = section.querySelector('[data-cold-curve]');
     const dot = section.querySelector('[data-cold-dot]');
-    const van = section.querySelector('[data-cold-van]');
     const steps = Array.from(section.querySelectorAll('[data-cold-step]'));
     const proof = section.querySelector('[data-cold-proof]');
     const delivery = section.querySelector('[data-cold-delivery]');
@@ -24,7 +39,7 @@ export function initColdChain(gsap, ScrollTrigger, reduced) {
     gsap.set(curve, { strokeDashoffset: 1 });
     if (proof) gsap.set(proof, { opacity: 0, y: 10 });
     if (delivery) gsap.set(delivery, { opacity: 0, y: 8 });
-    if (van) gsap.set(van, { xPercent: 0 });
+    positionColdCurveVan(0);
 
     let active = -1;
     const setStep = (index) => {
@@ -47,9 +62,7 @@ export function initColdChain(gsap, ScrollTrigger, reduced) {
             dot.setAttribute('cy', point.y);
         }
 
-        if (van) {
-            gsap.set(van, { xPercent: progress * 178 });
-        }
+        positionColdCurveVan(progress);
 
         const stepIndex = Math.min(3, Math.floor(progress * 4));
         setStep(stepIndex);
