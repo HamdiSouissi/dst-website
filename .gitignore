@@ -1,0 +1,14 @@
+# Données collectées par le formulaire (jamais dans Git)
+storage/demandes.csv
+storage/rate_limits.json
+storage/*.csv
+storage/*.json
+
+# Sources de travail / exports non utilisés
+assets/img/source/
+image-search/
+
+# Divers
+.DS_Store
+Thumbs.db
+*.log
