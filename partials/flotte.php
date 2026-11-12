@@ -56,7 +56,7 @@ $frozen = !empty($config['services_options']['frozen']);
                     <div class="fleet__meta mono">
                         <span>Température : <?= $frozen ? '-18 à +4 °C' : '0 à +4 °C' ?></span>
                         <span>Groupe frigorifique autonome</span>
-                        <span>Caisson conforme ATP</span>
+                        <span>Relevé de température à bord</span>
                     </div>
                 </aside>
             </div>
