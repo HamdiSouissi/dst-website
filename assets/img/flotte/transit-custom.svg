@@ -13,7 +13,7 @@
   <path d="M 0.055 1.772 L 0.055 0.119 Q 0.055 0.0 0.185 0.0 L 3.780 0.0 Q 3.830 0.0 3.780 0.10 L 4.640 0.935 Q 4.860 0.955 5.070 1.010 Q 5.290 1.030 5.310 1.175 L 5.310 1.712 Q 5.310 1.772 5.210 1.772 L 0.055 1.772 Z" fill="url(#body)" stroke="#2B1A2B" stroke-width="0.019" stroke-linejoin="round"/>
   <g clip-path="url(#bodyclip)">
     <rect x="0" y="1.095" width="3.780" height="0.895" fill="#F3ECDE" opacity=".5"/>
-    <rect x="0.02" y="1.224" width="3.730" height="0.062" fill="#1F7A4C" opacity=".9"/>
+    <rect x="0.02" y="1.224" width="3.730" height="0.062" fill="#F3C300" opacity=".9"/>
     <rect x="0.02" y="1.289" width="3.690" height="0.013" fill="#F5DC4A" opacity=".95"/>
     <text x="2.610" y="0.935" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="0.269" font-weight="700" letter-spacing="0.07" fill="#2B1A2B" opacity=".30">DST</text>
     <rect x="3.760" y="0.597" width="0.30" height="0.034" rx="0.017" fill="#2B1A2B" opacity=".12"/>

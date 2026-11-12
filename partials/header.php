@@ -57,10 +57,10 @@ $nav = [
   <nav class="mobile-panel__nav" aria-label="Navigation mobile">
     <ul>
       <?php foreach ($nav as $i => [$href, $label]):
-          $dot = ['#E5334B', '#F39A55', '#1F7A4C', '#F5DC4A', '#6B4A6B', '#8FBF9F'][$i % 6]; ?>
+          $dot = ['#E5334B', '#F39A55', '#F3C300', '#F5DC4A', '#6B4A6B', '#E7C97F'][$i % 6]; ?>
         <li><a href="<?= e($href) ?>" data-menu-link><span class="mobile-panel__dot" style="--dot:<?= e($dot) ?>" aria-hidden="true"></span><?= e($label) ?></a></li>
       <?php endforeach; ?>
-      <li class="mobile-panel__last"><a href="#devis" data-menu-link><span class="mobile-panel__dot" style="--dot:#1F7A4C" aria-hidden="true"></span>Devis</a></li>
+      <li class="mobile-panel__last"><a href="#devis" data-menu-link><span class="mobile-panel__dot" style="--dot:#F3C300" aria-hidden="true"></span>Devis</a></li>
     </ul>
   </nav>
   <div class="mobile-panel__foot">

@@ -82,5 +82,11 @@ $scale = 0.72 / $maxLen; // fraction de la largeur de piste par mètre
     <ul class="fleet__notes">
       <?php foreach ($f['notes'] as $n): ?><li><?= e($n) ?></li><?php endforeach; ?>
     </ul>
+
+    <!-- la flotte en vrai : trois gabarits, un seul habillage -->
+    <figure class="fleet__shot">
+      <?= picture('assets/img/photos/flotte-01.jpg', 'Trois camionnettes frigorifiques DST alignées dans une cour, à l\'aube', 'fleet__shot-pic', 100) ?>
+      <figcaption>Les trois gabarits, habillés à l'identique — <span>photo d'illustration</span></figcaption>
+    </figure>
   </div>
 </section>

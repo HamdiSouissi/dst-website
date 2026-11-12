@@ -87,7 +87,7 @@ return [
         'pills'       => ['0 → +4 °C', '75 92 93 94 77 78 91 95', 'Lun → Sam'], // jours À VALIDER
         'video'       => 'assets/video/frais.mp4',
         'poster'      => 'assets/video/frais-poster.webp',
-        'video_credit'=> 'Plan de démonstration — à remplacer par un film de la flotte DST.',
+        'video_credit'=> 'Film de démonstration — à remplacer par un tournage de la flotte DST.',
     ],
 
     /* ------------------------------------------------------------------
@@ -131,7 +131,7 @@ return [
         'highlight' => 'livrons pour vous',
         'items' => [
             [
-                'num' => '01', 'color' => '#1F7A4C', 'tone' => 'basil', 'icon' => 'truck',
+                'num' => '01', 'color' => '#F3C300', 'tone' => 'basil', 'icon' => 'truck',
                 'title' => 'Tournées régulières', 'lead' => 'Vos livraisons, à jour fixe.',
                 'detail' => 'Tournées quotidiennes ou hebdomadaires définies avec vous : mêmes créneaux, même chauffeur, aucune surprise. Idéal pour les restaurants et commerces de bouche.',
                 'meta' => 'Restaurants · Commerces',
@@ -161,7 +161,7 @@ return [
                 'meta' => 'En votre nom',
             ],
             [
-                'num' => '06', 'color' => '#CFE8C9', 'tone' => 'pousse', 'icon' => 'snow',
+                'num' => '06', 'color' => '#FBF0BE', 'tone' => 'pousse', 'icon' => 'snow',
                 'title' => 'Camionnette + chauffeur', 'lead' => 'Un renfort quand il faut.',
                 'detail' => 'Mise à disposition d\'une camionnette frigorifique avec chauffeur, à la demi-journée ou à la journée, pour vos pics d\'activité.',
                 'meta' => 'Demi-journée · Journée',
@@ -179,22 +179,22 @@ return [
         'title_b'=> 'sur la fraîcheur.',
         'highlight' => 'sur la fraîcheur',
         'items' => [
-            ['slug' => 'restaurants', 'name' => 'Restaurants', 'color' => '#E5334B', 'image' => 'assets/img/scenes/cuisine-restaurant.jpg',
+            ['slug' => 'restaurants', 'name' => 'Restaurants', 'color' => '#E5334B', 'image' => 'assets/img/photos/livraison-01.jpg',
              'text' => 'Vos produits arrivent avant la mise en place, à la bonne température, dans vos chambres froides. Vous vous concentrez sur la cuisine.',
              'tags' => ['Mise en place', 'Chambre froide', 'Avant le service']],
-            ['slug' => 'traiteurs', 'name' => 'Traiteurs & événementiel', 'color' => '#F39A55', 'image' => 'assets/img/scenes/traiteur-buffet.jpg',
+            ['slug' => 'traiteurs', 'name' => 'Traiteurs & événementiel', 'color' => '#F39A55', 'image' => 'assets/img/photos/traiteur-01.jpg',
              'text' => 'Des livraisons calées sur l\'heure du service, des véhicules propres et des chauffeurs soigneux, même pour les lieux de réception difficiles d\'accès.',
              'tags' => ['Buffets', 'Plateaux', 'Sur site']],
-            ['slug' => 'primeurs', 'name' => 'Primeurs & producteurs', 'color' => '#1F7A4C', 'image' => 'assets/img/scenes/primeur-etal.jpg',
+            ['slug' => 'primeurs', 'name' => 'Primeurs & producteurs', 'color' => '#F3C300', 'image' => 'assets/img/photos/chargement-01.jpg',
              'text' => 'Du champ ou du marché de gros jusqu\'à l\'étal, vos fruits et légumes gardent leur éclat.',
              'tags' => ['Fruits & légumes', 'Marché de gros', 'Étal']],
-            ['slug' => 'boulangeries', 'name' => 'Boulangeries & pâtisseries', 'color' => '#F5DC4A', 'image' => 'assets/img/frais/pain.jpg',
+            ['slug' => 'boulangeries', 'name' => 'Boulangeries & pâtisseries', 'color' => '#F5DC4A', 'image' => 'assets/img/photos/boulangerie-01.jpg',
              'text' => 'Crèmes, entremets, produits laitiers : transportés au frais, livrés intacts.',
              'tags' => ['Crèmes', 'Entremets', 'Produits laitiers']],
-            ['slug' => 'epiceries', 'name' => 'Épiceries fines & fromagers', 'color' => '#6B4A6B', 'image' => 'assets/img/frais/fromages.jpg',
+            ['slug' => 'epiceries', 'name' => 'Épiceries fines & fromagers', 'color' => '#6B4A6B', 'image' => 'assets/img/photos/epicerie-01.jpg',
              'text' => 'Fromages, charcuteries, produits d\'exception : le respect que méritent vos références.',
              'tags' => ['Fromages', 'Charcuterie', 'Produits d\'exception']],
-            ['slug' => 'poissonneries', 'name' => 'Poissonneries', 'color' => '#8FBF9F', 'image' => 'assets/img/frais/poisson-glace.jpg',
+            ['slug' => 'poissonneries', 'name' => 'Poissonneries', 'color' => '#E7C97F', 'image' => 'assets/img/photos/interieur-01.jpg',
              'text' => 'Produits de la mer en froid constant, livrés tôt pour l\'ouverture.',
              'tags' => ['Froid constant', 'Tôt le matin', 'Écailler']],
         ],
@@ -336,7 +336,7 @@ return [
             ['value' => '98', 'unit' => '%', 'label' => 'livraisons dans le créneau', 'text' => 'À VALIDER — sur les 12 derniers mois.', 'certain' => false],
             ['value' => '< 24', 'unit' => 'h', 'label' => 'pour recevoir votre devis', 'text' => 'À VALIDER.', 'certain' => false],
         ],
-        'photo' => 'assets/img/frais/legumes-cagette.jpg',
+        'photo' => 'assets/img/photos/flotte-01.jpg',
     ],
 
     /* ------------------------------------------------------------------
@@ -375,14 +375,14 @@ return [
         'highlight' => 'tous les matins',
         'hint' => 'Glisser',
         'items' => [
-            ['src' => 'assets/img/frais/legumes-cagette.jpg', 'time' => '05:40', 'caption' => 'Chargement', 'ratio' => '4/5'],
-            ['src' => 'assets/img/scenes/cuisine-restaurant.jpg', 'time' => '06:15', 'caption' => 'Paris 13e', 'ratio' => '3/2'],
-            ['src' => 'assets/img/frais/tomates.jpg', 'time' => '06:40', 'caption' => 'Primeur, Alfortville', 'ratio' => '1/1'],
-            ['src' => 'assets/img/frais/poisson-glace.jpg', 'time' => '07:00', 'caption' => 'Mise en place', 'ratio' => '4/5'],
-            ['src' => 'assets/img/scenes/traiteur-buffet.jpg', 'time' => '08:30', 'caption' => 'Traiteur, Neuilly', 'ratio' => '3/2'],
-            ['src' => 'assets/img/frais/pain.jpg', 'time' => '09:10', 'caption' => 'Boulangerie, Vincennes', 'ratio' => '1/1'],
-            ['src' => 'assets/img/frais/fromages.jpg', 'time' => '10:00', 'caption' => 'Fromagerie, Paris 11e', 'ratio' => '4/5'],
-            ['src' => 'assets/img/frais/fruits-rouges.jpg', 'time' => '10:45', 'caption' => 'Retour de tournée', 'ratio' => '3/2'],
+            ['src' => 'assets/img/photos/chargement-01.jpg', 'time' => '05:20', 'caption' => 'Marché de gros, chargement', 'ratio' => '3/2'],
+            ['src' => 'assets/img/photos/boulangerie-01.jpg', 'time' => '06:05', 'caption' => 'Boulangerie, Paris 11e', 'ratio' => '3/2'],
+            ['src' => 'assets/img/photos/hero-02.jpg', 'time' => '06:40', 'caption' => 'Quais de Seine', 'ratio' => '3/2'],
+            ['src' => 'assets/img/photos/livraison-01.jpg', 'time' => '07:15', 'caption' => 'Restaurant, Paris 3e', 'ratio' => '3/2'],
+            ['src' => 'assets/img/photos/route-01.jpg', 'time' => '08:00', 'caption' => 'Boulevard, retour de tournée', 'ratio' => '3/2'],
+            ['src' => 'assets/img/photos/epicerie-01.jpg', 'time' => '08:45', 'caption' => 'Épicerie fine, rive gauche', 'ratio' => '3/2'],
+            ['src' => 'assets/img/photos/traiteur-01.jpg', 'time' => '09:30', 'caption' => 'Traiteur, Neuilly', 'ratio' => '3/2'],
+            ['src' => 'assets/img/photos/interieur-01.jpg', 'time' => '10:10', 'caption' => 'Caisse à 2 °C', 'ratio' => '3/2'],
         ],
         'note' => 'Moments illustratifs — à remplacer par de vraies photos DST dès que possible.',
     ],
@@ -463,7 +463,7 @@ return [
     'image_credits' => [
         // ['label' => '…', 'author' => '…', 'license' => '…', 'url' => '…'],
     ],
-    'photos_note' => 'Visuels d\'illustration générés pour la maquette : non contractuels, à remplacer par des photographies de la flotte et des produits DST.',
+    'photos_note' => 'Photographies d\'illustration de la flotte (visuels de démonstration) : non contractuelles, à remplacer par les photos réelles des camionnettes DST et de leurs chauffeurs.',
 
     /* ------------------------------------------------------------------
      * 19. SEO
@@ -475,7 +475,7 @@ return [
         'locale'      => 'fr_FR',
         'keywords'    => ['livraison produits frais Paris', 'transport frigorifique Île-de-France', 'camionnette frigorifique avec chauffeur', 'livraison restaurants Paris', 'transporteur frais Val-de-Marne'],
         'og_image'    => 'assets/img/og-image.jpg',
-        'theme_color' => '#1F7A4C',
+        'theme_color' => '#F3C300',
     ],
 
     /* ------------------------------------------------------------------

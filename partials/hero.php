@@ -1,14 +1,15 @@
 <?php
 /**
- * Hero typographique.
+ * Hero cinématographique.
  *
- * Un seul SVG porte le mot géant :
- *  - l'intérieur des lettres est rempli par la vidéo de produits frais
- *    (clipPath exact des contours de Bricolage Grotesque) ;
- *  - la camionnette traverse le mot, masquée par les lettres du mot courant :
- *    elle passe donc derrière elles et devant le fond ;
- *  - le mot devient cinétique (FRAIS → DIRECT → À L'HEURE) : les trois mots
- *    occupent la même largeur, seule la hauteur change.
+ * Un film en boucle (plusieurs plans : rue parisienne, trois-quarts, chargement
+ * au marché, arrière de caisse sur les quais) occupe toute la largeur. Le mot
+ * géant est découpé dans un voile crème posé sur la vidéo : les lettres laissent
+ * voir l'image en pleine lumière, le reste est légèrement assombri.
+ *
+ * Le mot devient cinétique (FRAIS → DIRECT → À L'HEURE) : les trois découpes
+ * sont superposées dans le même masque, on les fait se fondre l'une dans
+ * l'autre. Un seul fichier vidéo, aucun décalage possible.
  *
  * @var array $config
  */
@@ -18,74 +19,45 @@ $words    = hero_words();
 $box      = hero_box();
 $viewBox  = sprintf('0 %s %s %s', $box['top'], $box['w'], $box['h']);
 $hasVideo = is_file(__DIR__ . '/../' . $hero['video']) && is_file(__DIR__ . '/../' . $hero['poster']);
+$hasPoster = is_file(__DIR__ . '/../' . $hero['poster']);
 ?>
 <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
-  <div class="hero__grid" aria-hidden="true" data-grid-lines></div>
-
   <div class="hero__stage" data-hero-stage>
-    <div class="hero__word-wrap">
+    <?php if ($hasVideo): ?>
+    <video class="hero__film" data-hero-video muted loop playsinline preload="none"
+           poster="<?= e(asset($hero['poster'])) ?>" tabindex="-1" aria-hidden="true">
+      <source src="<?= e(asset($hero['video'])) ?>" type="video/mp4">
+    </video>
+    <?php elseif ($hasPoster): ?>
+    <img class="hero__film" src="<?= e(asset($hero['poster'])) ?>" alt="" aria-hidden="true" decoding="async">
+    <?php endif; ?>
+
+    <div class="hero__veil" aria-hidden="true"></div>
+
+    <div class="hero__word-wrap<?= $hasVideo || $hasPoster ? ' has-film' : '' ?>">
       <div class="hero__word" data-hero-word aria-hidden="true">
         <svg class="hero__sign" viewBox="<?= e($viewBox) ?>" preserveAspectRatio="xMidYMid meet" data-hero-sign>
           <defs>
             <?= hero_glyph_defs() ?>
-            <?php foreach ($words as $i => $w): ?>
-            <clipPath id="word-clip-<?= (int) $i ?>" clipPathUnits="userSpaceOnUse"><?= hero_letters($i) ?></clipPath>
-            <?php endforeach; ?>
-            <mask id="van-mask" maskUnits="userSpaceOnUse" x="-200" y="<?= (int) $box['top'] - 260 ?>" width="<?= (int) $box['w'] + 400 ?>" height="<?= (int) $box['h'] + 560 ?>">
-              <rect x="-200" y="<?= (int) $box['top'] - 260 ?>" width="<?= (int) $box['w'] + 400 ?>" height="<?= (int) $box['h'] + 560 ?>" fill="#fff"/>
-              <g fill="#000" id="van-cut"><?= hero_letters(0) ?></g>
+            <mask id="word-mask" maskUnits="userSpaceOnUse" x="-40" y="<?= (int) $box['top'] - 20 ?>"
+                  width="<?= (int) $box['w'] + 80 ?>" height="<?= (int) $box['h'] + 40 ?>">
+              <rect x="-40" y="<?= (int) $box['top'] - 20 ?>" width="<?= (int) $box['w'] + 80 ?>"
+                    height="<?= (int) $box['h'] + 40 ?>" fill="#fff"/>
+              <?php foreach ($words as $i => $w): ?>
+              <g class="hero__hole<?= $i === 0 ? ' is-on' : '' ?>" data-hole="<?= (int) $i ?>"
+                 fill="#000" style="opacity:<?= $i === 0 ? '1' : '0' ?>"><?= hero_letters($i) ?></g>
+              <?php endforeach; ?>
             </mask>
-            <linearGradient id="frais-fallback" x1="0" y1="0" x2=".35" y2="1">
-              <stop offset="0" stop-color="#1F7A4C"/>
-              <stop offset=".55" stop-color="#2C8A58"/>
-              <stop offset="1" stop-color="#163F2A"/>
-            </linearGradient>
-            <linearGradient id="frais-sheen" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#FAF6EE" stop-opacity=".16"/>
-              <stop offset=".45" stop-color="#FAF6EE" stop-opacity="0"/>
-              <stop offset="1" stop-color="#2B1A2B" stop-opacity=".18"/>
-            </linearGradient>
-            <pattern id="frais-leaves" width="150" height="150" patternUnits="userSpaceOnUse" patternTransform="rotate(18)">
-              <path d="M30,112 C18,74 44,48 70,36 C72,70 58,104 30,112 Z" fill="#CFE8C9" opacity=".18"/>
-              <path d="M100,60 C90,34 106,12 128,4 C132,32 122,54 100,60 Z" fill="#CFE8C9" opacity=".11"/>
-            </pattern>
           </defs>
-
-          <?php foreach ($words as $i => $w): ?>
-          <!-- mot <?= (int) $i ?> : <?= e($w['text']) ?> -->
-          <g class="hero__w<?= $i === 0 ? ' is-on' : '' ?>" data-word="<?= (int) $i ?>"
-             style="visibility:<?= $i === 0 ? 'visible' : 'hidden' ?>">
-            <g clip-path="url(#word-clip-<?= (int) $i ?>)">
-              <rect x="0" y="<?= $box['top'] ?>" width="<?= $box['w'] ?>" height="<?= $box['h'] ?>" fill="<?= $i === 0 ? 'url(#frais-fallback)' : '#1F7A4C' ?>"/>
-              <rect x="0" y="<?= $box['top'] ?>" width="<?= $box['w'] ?>" height="<?= $box['h'] ?>" fill="url(#frais-leaves)"/>
-              <rect x="0" y="<?= $box['top'] ?>" width="<?= $box['w'] ?>" height="<?= $box['h'] ?>" fill="url(#frais-sheen)"/>
-              <?php if ($i === 0 && $hasVideo): ?>
-              <foreignObject class="hero__video-holder" x="0" y="<?= $box['top'] ?>" width="<?= $box['w'] ?>" height="<?= $box['h'] ?>">
-                <video class="hero__video" data-hero-video muted loop playsinline preload="none"
-                       poster="<?= e(asset($hero['poster'])) ?>" tabindex="-1">
-                  <source src="<?= e(asset($hero['video'])) ?>" type="video/mp4">
-                </video>
-              </foreignObject>
-              <?php endif; ?>
-            </g>
-
-            <?php if ($i === 0): ?>
-            <!-- la camionnette : derrière chaque lettre, devant le fond -->
-            <g class="hero__van" mask="url(#van-mask)" data-hero-van>
-              <image class="hero__van-shot" href="<?= e(asset('assets/img/flotte/master.svg')) ?>"
-                     x="0" y="-292" width="600" height="300" preserveAspectRatio="xMaxYMax meet"/>
-              <g class="hero__frost" aria-hidden="true">
-                <circle cx="8" cy="-150" r="7"/>
-                <circle cx="26" cy="-104" r="5"/>
-                <circle cx="-6" cy="-124" r="10"/>
-                <circle cx="44" cy="-170" r="4"/>
-                <circle cx="34" cy="-78" r="6"/>
-              </g>
-            </g>
-            <?php endif; ?>
-
-            <g class="hero__outline" fill="none" stroke="#2B1A2B" stroke-width="4" stroke-linejoin="round" opacity="0"><?= hero_letters($i) ?></g>
+          <!-- le bandeau crème : les lettres sont les seules fenêtres sur le film -->
+          <g mask="url(#word-mask)">
+            <rect class="hero__band" x="-40" y="<?= (int) $box['top'] - 20 ?>" width="<?= (int) $box['w'] + 80 ?>"
+                  height="<?= (int) $box['h'] + 40 ?>" fill="#FAF6EE" opacity=".985"/>
           </g>
+          <?php foreach ($words as $i => $w): ?>
+          <g class="hero__outline<?= $i === 0 ? ' is-on' : '' ?>" data-outline="<?= (int) $i ?>"
+             fill="none" stroke="#2B1A2B" stroke-width="3" stroke-linejoin="round"
+             opacity="<?= $i === 0 ? '0' : '0' ?>"><?= hero_letters($i) ?></g>
           <?php endforeach; ?>
         </svg>
       </div>

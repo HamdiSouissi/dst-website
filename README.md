@@ -41,8 +41,10 @@ Le serveur intégré de PHP ne lit pas `.htaccess` : c'est normal, tout fonction
 6. Activer HTTPS (Let's Encrypt ou certificat de l'hébergeur) : `.htaccess` force déjà la
    redirection.
 
-> À ne **jamais** mettre en ligne : `tmp-src/` (générateurs d'images et de tracés, hors
-> production) et `A_COMPLETER.md`. Le `.htaccess` les bloque, mais autant ne pas les transférer.
+> À ne **jamais** mettre en ligne : `tools/` (script de génération des tailles d'images),
+> `tmp-src/` s'il existe encore (générateurs de tracés) et `A_COMPLETER.md`. Le `.htaccess`
+> bloque `tmp-src`, `storage`, `lib` et `partials` ; les `.md` restent lisibles si on les
+> dépose — voir § 7 de `A_COMPLETER.md`.
 
 ---
 
@@ -58,7 +60,7 @@ Le serveur intégré de PHP ne lit pas `.htaccess` : c'est normal, tout fonction
 ├── partials/              un fichier par section
 │   ├── head.php           <head>, SEO, JSON-LD, polices
 │   ├── header.php         barre haute + navigation + logo qui se réduit
-│   ├── hero.php           mot géant, vidéo dans les lettres, camionnette
+│   ├── hero.php           film en boucle, mot géant découpé dedans
 │   ├── circuit.php        01 — circuit direct (comparateur animé)
 │   ├── services.php       02 — six cagettes en 3D
 │   ├── secteurs.php       03 — scènes sectorielles (Flip)
@@ -79,12 +81,16 @@ Le serveur intégré de PHP ne lit pas `.htaccess` : c'est normal, tout fonction
 │   ├── css/style.css      tout le style (variables CSS, aucune dépendance)
 │   ├── js/                11 modules ES natifs + vendor/ (GSAP, Lenis)
 │   ├── fonts/             Bricolage Grotesque, Instrument Sans, Fragment Mono
-│   ├── img/               flotte/ (SVG), frais/, scènes, sticker, icônes
-│   └── video/frais.mp4    vidéo du hero (+ affiche webp)
+│   ├── img/
+│   │   ├── brand/         logo officiel (4 teintes)
+│   │   ├── photos/        la flotte en photos (640/1100/1600 + webp + lqip)
+│   │   ├── flotte/        silhouettes à l'échelle (comparateur de gabarits)
+│   │   └── frais/ scenes/ produits et décors (héritage de la v1)
+│   └── video/frais.mp4    film du hero, en boucle (+ affiche webp/jpg)
 ├── storage/               journal CSV des demandes (protégé, non listé)
 ├── .htaccess              redirections, cache, compression, en-têtes
 ├── robots.txt · sitemap.xml · site.webmanifest
-└── tmp-src/               générateurs hors production (à ne pas déployer)
+└── tools/photos.py        régénère les tailles d'une photo (hors production)
 ```
 
 ### Une seule page, plusieurs URL
@@ -118,6 +124,23 @@ Quelques principes du modèle de données :
 - **Images.** Un fichier absent affiche automatiquement un bloc de couleur de la palette avec
   une icône — jamais une image cassée.
 
+### La marque
+
+Le logo officiel (monogramme **DS**, texte circulaire « Distribution Services / Transports »,
+deux camionnettes) est fourni en quatre teintes dans `assets/img/brand/` :
+
+| Fichier | Usage |
+|---|---|
+| `logo.svg` | source, `currentColor` — pour l'inline |
+| `logo-ink.svg` | aubergine, sur fond clair (en-tête) |
+| `logo-cream.svg` | crème, sur fond sombre (pied de page) |
+| `logo-yellow.svg` | jaune, pour les aplats aubergine |
+
+`brand_mark($class, $tone)` (dans `partials/logo.php`) pose l'image ; `favicon.svg`,
+`favicon-32.png`, `apple-touch-icon.png`, `icon-192/512.png` et le manifest en dérivent. Les
+tracés d'origine contenaient un disque plein qui masquait le monogramme : il a été retiré, le
+reste est rendu en `fill-rule="evenodd"`.
+
 ### Images
 
 `picture()` (dans `partials/helpers.php`) attend cette convention, à partir d'un `.jpg` de base :
@@ -140,14 +163,20 @@ Tout est dans `assets/css/style.css`, section « 1. Réglages » :
 
 ```css
 :root{
-  --cream:#FAF6EE; --lin:#F1EADC; --aubergine:#2B1A2B; --plum:#7A6873;
-  --basil:#1F7A4C; --pousse:#CFE8C9; --framboise:#E5334B; --citron:#F5DC4A;
-  --abricot:#F39A55; --aubergine-clair:#6B4A6B; --eau:#8FBF9F;
+  --cream:#FAF6EE; --linen:#F1EADC; --aubergine:#2B1A2B; --plum:#7A6873;
+  --basil:#F3C300;        /* le jaune DST (ex-vert basilic) */
+  --basil-deep:#6E5200;   /* la même famille, pour le texte sur fond clair */
+  --sprout:#FBF0BE; --raspberry:#E5334B; --lemon:#F5DC4A;
+  --apricot:#F39A55; --aubergine-light:#6B4A6B; --water:#E7C97F;
 }
 ```
 
 **Pas de bleu, nulle part.** Les dégradés, ombres et états de focus sont dérivés de ces onze
 valeurs ; en changer une suffit à repeindre le site.
+
+> Le jaune `--basil` ne porte jamais de texte blanc : les aplats jaunes reçoivent de
+> l'aubergine, et les textes colorés sur fond clair utilisent `--basil-deep` (contraste 7:1).
+> Le nom de variable a été conservé pour ne pas casser les 40 règles qui l'utilisent.
 
 ---
 
@@ -203,7 +232,7 @@ Modules ES natifs, chargés en `<script type="module">`, sans bundler :
 | Module | Rôle |
 |---|---|
 | `main.js` | socle : Lenis, préférences de mouvement, header, menu, curseur, panneaux |
-| `hero.js` | vidéo dans les lettres, camionnette masquée par le mot, mot cinétique |
+| `hero.js` | film en boucle (pause hors écran), mot cinétique découpé dans le bandeau |
 | `circuit.js` | comparateur « circuit classique / direct » |
 | `labels.js` | cagettes 3D, inclinaison, bascule texte détaillé |
 | `sectors.js` | scènes sectorielles (Flip), lecture auto 7 s |
@@ -240,12 +269,12 @@ drapeau `DST.reduced` dans `main.js`) ; le hero se fige sur FRAIS et la vidéo n
 - en-têtes de sécurité (CSP `default-src 'self'`, `frame-ancestors`, `X-Content-Type-Options`,
   `Referrer-Policy`, `Permissions-Policy`) ;
 - `ErrorDocument 404 /index.php` ;
-- `storage|lib|partials|tmp-src` interdits (`[F]`).
+- `storage|lib|partials|tmp-src|tools` interdits (`[F]`).
 
 ### Nginx
 
 ```nginx
-location ~ ^/(storage|lib|partials|tmp-src)/ { deny all; }
+location ~ ^/(storage|lib|partials|tmp-src|tools)/ { deny all; }
 location / { try_files $uri /index.php?$query_string; }
 add_header Content-Security-Policy "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'" always;
 ```
@@ -274,8 +303,10 @@ utilisent des attributs `style` posés par PHP. Le script, lui, n'a **pas** d'ex
 - Polices en `woff2`, `font-display: swap`, préchargement des deux graisses utiles.
 - Images en `webp` + repli `jpg`, `srcset` à trois tailles, `loading="lazy"` hors écran,
   LQIP flou pour les grandes scènes.
-- Vidéo du hero : `preload="none"`, lecture seulement à l'entrée dans le viewport, coupée si
-  `Save-Data` ou réseau 2G.
+- Film du hero : 10,3 s, 1440 × 810, quatre plans (rue, trois-quarts, chargement au marché,
+  arrière de caisse sur les quais), 1,7 Mo, `preload="none"`, lecture seulement à l'entrée
+  dans le viewport, coupée si `Save-Data` ou réseau 2G. La boucle est fabriquée en
+  enchaînant les plans puis en revenant au premier : la dernière image rejoint la première.
 - Animations sur `transform`/`opacity`, observateurs d'intersection pour suspendre hors écran.
 
 ---
@@ -284,8 +315,9 @@ utilisent des attributs `style` posés par PHP. Le script, lui, n'a **pas** d'ex
 
 - `sitemap.xml` et `robots.txt` contiennent l'hôte de démonstration `https://www.exemple.fr` :
   à remplacer (voir `A_COMPLETER.md`).
-- Les visuels de produits et de scènes sont des **illustrations** : ils doivent être remplacés
-  par des photographies réelles avant mise en ligne commerciale.
+- Les photographies de la flotte (`assets/img/photos/`) sont des **visuels de démonstration
+  générés** : véhicules, chauffeurs et lieux ne sont pas ceux de DST. Ils portent pourtant
+  l'habillage DST et doivent être remplacés par un reportage réel avant toute campagne.
 - Le journal CSV n'a pas de rotation automatique : au-delà de quelques milliers de lignes,
   l'archiver à la main.
 - Pas de back-office : toute modification de contenu passe par `config.php`.

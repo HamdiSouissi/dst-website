@@ -153,7 +153,7 @@ ob_start(); ?>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F1EADC;padding:24px 12px">
   <tr><td align="center">
     <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#FAF6EE;border-radius:18px;overflow:hidden">
-      <tr><td style="background:#1F7A4C;padding:20px 28px;color:#FAF6EE">
+      <tr><td style="background:#F3C300;padding:20px 28px;color:#2B1A2B">
         <span style="font-size:26px;font-weight:800;letter-spacing:-.04em">DST</span>
         <span style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.85">Distribution Services Transports</span>
       </td></tr>
@@ -163,8 +163,8 @@ ob_start(); ?>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;line-height:1.5">
           <tr><td style="padding:6px 0;color:#7A6873;width:150px">Contact</td><td><?= $esc($name) ?></td></tr>
           <tr><td style="padding:6px 0;color:#7A6873">Entreprise</td><td><b><?= $esc($company) ?></b></td></tr>
-          <tr><td style="padding:6px 0;color:#7A6873">Téléphone</td><td><a href="tel:<?= $esc(preg_replace('/[^0-9+]/', '', $phone)) ?>" style="color:#1F7A4C"><?= $esc($phone) ?></a></td></tr>
-          <tr><td style="padding:6px 0;color:#7A6873">Email</td><td><a href="mailto:<?= $esc($email) ?>" style="color:#1F7A4C"><?= $esc($email) ?></a></td></tr>
+          <tr><td style="padding:6px 0;color:#7A6873">Téléphone</td><td><a href="tel:<?= $esc(preg_replace('/[^0-9+]/', '', $phone)) ?>" style="color:#6E5200"><?= $esc($phone) ?></a></td></tr>
+          <tr><td style="padding:6px 0;color:#7A6873">Email</td><td><a href="mailto:<?= $esc($email) ?>" style="color:#6E5200"><?= $esc($email) ?></a></td></tr>
           <tr><td style="padding:6px 0;color:#7A6873">Fréquence</td><td><?= $esc($freq) ?></td></tr>
           <tr><td style="padding:6px 0;color:#7A6873">Volume estimé</td><td><?= $esc(number_format($volume, 1, ',', '')) ?> m³</td></tr>
           <tr><td style="padding:6px 0;color:#7A6873">Marchandises</td><td><?= $esc($goods ? implode(', ', $goods) : 'Non précisé') ?></td></tr>
@@ -176,7 +176,7 @@ ob_start(); ?>
       </td></tr>
       <?php endif; ?>
       <tr><td style="padding:0 28px 28px">
-        <a href="mailto:<?= $esc($email) ?>" style="display:inline-block;background:#1F7A4C;color:#FAF6EE;text-decoration:none;padding:12px 22px;border-radius:999px;font-size:14px;font-weight:600">Répondre à <?= $esc(explode(' ', $name)[0]) ?></a>
+        <a href="mailto:<?= $esc($email) ?>" style="display:inline-block;background:#F3C300;color:#2B1A2B;text-decoration:none;padding:12px 22px;border-radius:999px;font-size:14px;font-weight:600">Répondre à <?= $esc(explode(' ', $name)[0]) ?></a>
         <a href="tel:<?= $esc(preg_replace('/[^0-9+]/', '', $phone)) ?>" style="display:inline-block;margin-left:8px;background:#2B1A2B;color:#FAF6EE;text-decoration:none;padding:12px 22px;border-radius:999px;font-size:14px;font-weight:600">Appeler</a>
       </td></tr>
       <tr><td style="padding:16px 28px 24px;background:#F1EADC;color:#7A6873;font-size:11px;line-height:1.6">

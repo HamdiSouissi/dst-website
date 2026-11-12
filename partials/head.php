@@ -30,7 +30,8 @@ $url = rtrim($seo['url'], '/') . '/';
 <meta name="twitter:description" content="<?= e($seo['description']) ?>">
 <meta name="twitter:image" content="<?= e(rtrim($seo['url'], '/') . '/' . ltrim($seo['og_image'], '/')) ?>">
 
-<link rel="icon" href="assets/img/sticker.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 

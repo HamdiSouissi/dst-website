@@ -26,6 +26,7 @@ $wa = whatsapp_href($config);
 
   <div class="wrap footer__cols">
     <div class="footer__col footer__col--brand">
+      <?= brand_mark('footer__mark', 'cream') ?>
       <?= sticker('sticker sticker--footer', 'DST') ?>
       <p class="footer__claim"><?= e($config['company']['tagline']) ?></p>
       <p class="footer__desc"><?= e($config['footer']['tagline']) ?></p>

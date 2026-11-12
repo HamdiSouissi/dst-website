@@ -6,6 +6,8 @@
 declare(strict_types=1);
 
 require __DIR__ . '/security.php';
+// la session démarre avant le premier octet : sinon le cookie CSRF ne part pas
+dst_session_start();
 require __DIR__ . '/partials/helpers.php';
 require __DIR__ . '/partials/icons.php';
 

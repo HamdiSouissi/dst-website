@@ -1,63 +1,67 @@
 /**
- * hero.js — le mot géant, la vidéo dans les lettres et la camionnette.
+ * hero.js — le film en boucle et le mot cinétique découpé dedans.
  *
- * 1. La vidéo démarre quand le hero entre dans le viewport (coupée si Save-Data).
- * 2. La camionnette traverse le mot. Elle est masquée par les lettres du mot
- *    affiché : elle passe derrière elles, et devant le fond. Un givre discret
- *    s'échappe du caisson.
- * 3. Le mot devient cinétique : FRAIS → DIRECT → À L'HEURE, en boucle lente,
- *    avec une pause au survol et à la perte de visibilité.
- *
- * Les déplacements se font dans le repère du SVG (unités de police, largeur
- * 2019) : le rendu est identique de 320 px à 2560 px de large.
+ * 1. La vidéo démarre quand le hero entre dans le viewport, se met en pause
+ *    quand on le quitte, et n'est jamais chargée si l'utilisateur économise
+ *    ses données ou si son réseau est lent.
+ * 2. Le mot géant est une découpe dans le bandeau crème posé sur le film :
+ *    FRAIS → DIRECT → À L'HEURE. Les trois découpes sont superposées dans le
+ *    même masque SVG, on les fait se fondre l'une dans l'autre — aucune
+ *    duplication du fichier vidéo, aucun décalage d'image.
+ * 3. `prefers-reduced-motion` : la vidéo reste sur son affiche et le mot ne
+ *    change plus.
  */
 export default function initHero(DST) {
   const hero = document.querySelector('[data-hero]');
   if (!hero) return;
 
-  const sign = hero.querySelector('[data-hero-sign]');
-  const van = hero.querySelector('[data-hero-van]');
-  const words = Array.from(hero.querySelectorAll('[data-word]'));
   const video = hero.querySelector('[data-hero-video]');
+  const holes = Array.from(hero.querySelectorAll('[data-hole]'));
+  const outlines = Array.from(hero.querySelectorAll('[data-outline]'));
   const sticker = hero.querySelector('.sticker--hero');
-  const box = sign ? sign.viewBox.baseVal : null;
-  const W = box && box.width ? box.width : 2019;
+  const { reduced } = DST;
 
-  /* ---------- 1. vidéo ---------- */
+  /* ---------- 1. le film ---------- */
   const conn = navigator.connection || {};
-  const saveData = conn.saveData === true;
-  const slow = ['slow-2g', '2g'].includes(conn.effectiveType);
+  const frugal = conn.saveData === true || ['slow-2g', '2g'].includes(conn.effectiveType);
+
   if (video) {
-    if (saveData || slow) {
-      video.remove();
+    if (frugal) {
+      video.removeAttribute('autoplay');
+      video.pause?.();
     } else {
       video.muted = true;
       const start = () => {
         const p = video.play();
         if (p && p.catch) p.catch(() => {});
       };
+
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver(
           ([e]) => {
             if (e.isIntersecting) {
               video.preload = 'auto';
-              start();
-            } else {
+              if (!reduced) start();
+            } else if (!video.paused) {
               video.pause();
             }
           },
           { threshold: 0.05 }
         );
         io.observe(video);
-      } else {
+      } else if (!reduced) {
         start();
       }
-      video.addEventListener('canplay', () => hero.classList.add('is-video-ready'), { once: true });
+
+      video.addEventListener('canplay', () => hero.classList.add('is-film-ready'), { once: true });
+
+      // si le navigateur refuse la lecture auto, on garde l'affiche : rien ne casse
+      const attempt = video.play?.();
+      if (attempt && attempt.catch) attempt.catch(() => hero.classList.add('is-film-blocked'));
     }
   }
 
   if (!window.gsap) return;
-  const { reduced } = DST;
 
   /* ---------- 2. le sticker tombe à l'arrivée ---------- */
   if (sticker && !reduced) {
@@ -67,159 +71,81 @@ export default function initHero(DST) {
       scale: 1.55,
       opacity: 0,
       duration: 1.5,
-      delay: 0.45,
+      delay: 0.35,
       ease: 'elastic.out(1, .55)',
     });
   }
 
-  /* ---------- 3. contours des lettres, puis remplissage ---------- */
-  const outlines = hero.querySelectorAll('.hero__outline');
+  /* ---------- 3. contours des lettres, puis effacement ---------- */
   if (!reduced && outlines.length) {
-    const first = outlines[0].querySelectorAll('use');
-    if (first.length) {
-      gsap.set(outlines[0], { opacity: 0.5 });
-      gsap.set(first, { drawSVG: '0%' });
-      gsap.to(first, {
+    const uses = outlines[0].querySelectorAll('use');
+    if (uses.length) {
+      gsap.set(outlines[0], { opacity: 0.55 });
+      gsap.set(uses, { drawSVG: '0%' });
+      gsap.to(uses, {
         drawSVG: '100%',
         duration: 0.85,
-        stagger: 0.05,
+        stagger: 0.045,
         ease: 'power2.inOut',
-        delay: 0.1,
+        delay: 0.15,
         onComplete() {
-          gsap.to(outlines[0], { opacity: 0, duration: 0.8, delay: 0.12 });
+          gsap.to(outlines[0], { opacity: 0, duration: 0.9, delay: 0.2 });
         },
       });
     }
   }
 
-  if (!van || !words.length) return;
-
-  const frost = van.querySelectorAll('.hero__frost circle');
-  const VAN_W = 600;                                   // largeur du dessin de la camionnette
-  const START = -VAN_W - 40;                           // hors cadre, à gauche
-  const END = W + 40;                                  // hors cadre, à droite
-
-  gsap.set(van, { x: START });
-
-  if (reduced) {
-    // image fixe : la camionnette au centre, mot FRAIS seulement
-    gsap.set(van, { x: (W - VAN_W) / 2 });
-    words.forEach((w, i) => {
-      w.classList.toggle('is-on', i === 0);
-      w.style.visibility = i === 0 ? 'visible' : 'hidden';
-    });
-    return;
-  }
+  /* ---------- 4. le mot cinétique ---------- */
+  if (reduced || holes.length < 2) return;
 
   let index = 0;
-  let paused = false;
+  let held = false;
   let loop = null;
 
-  const showWord = (next, animate) => {
-    const from = words[index];
-    const to = words[next];
+  const show = (next) => {
+    const from = holes[index];
+    const fromLine = outlines[index];
+    const to = holes[next];
+    const toLine = outlines[next];
     index = next;
-    if (!animate) {
-      words.forEach((w, i) => {
-        w.classList.toggle('is-on', i === index);
-        w.style.visibility = i === index ? 'visible' : 'hidden';
-      });
-      return;
-    }
-    gsap.to(from, {
-      opacity: 0,
-      y: -18,
-      duration: 0.34,
-      ease: 'power2.in',
-      onComplete() {
-        from.classList.remove('is-on');
-        from.style.visibility = 'hidden';
-        gsap.set(from, { opacity: 1, y: 0 });
-      },
-    });
+
+    gsap.to(from, { opacity: 0, duration: 0.55, ease: 'power2.inOut' });
+    gsap.to(to, { opacity: 1, duration: 0.55, ease: 'power2.inOut' });
+    from.classList.remove('is-on');
     to.classList.add('is-on');
-    to.style.visibility = 'visible';
-    gsap.fromTo(
-      to,
-      { opacity: 0, y: 26, scaleY: 0.94, transformOrigin: '50% 100%' },
-      { opacity: 1, y: 0, scaleY: 1, duration: 0.62, ease: 'expo.out', delay: 0.12 }
-    );
+
+    if (fromLine) gsap.to(fromLine, { opacity: 0, duration: 0.4 });
+    if (toLine) {
+      gsap.fromTo(toLine, { opacity: 0 }, { opacity: 0.5, duration: 0.5, delay: 0.15 });
+      gsap.to(toLine, { opacity: 0, duration: 0.8, delay: 1.6 });
+    }
   };
 
-  const burst = () => {
-    gsap.fromTo(
-      frost,
-      { opacity: 0, x: 0, y: 0, scale: 0.4 },
-      {
-        opacity: 1,
-        duration: 0.3,
-        stagger: 0.05,
-        onComplete() {
-          gsap.to(frost, {
-            opacity: 0,
-            x: () => gsap.utils.random(-150, -60),
-            y: () => gsap.utils.random(-40, 40),
-            scale: 1.5,
-            duration: 1.2,
-            stagger: 0.06,
-            ease: 'power1.out',
-          });
-        },
-      }
-    );
+  const cycle = () => {
+    show((index + 1) % holes.length);
+    loop = gsap.delayedCall(4.6, cycle);
   };
 
-  // un passage complet : entrée par la gauche, traversée, sortie à droite
-  const pass = () => {
-    const tl = gsap.timeline({
-      onComplete() {
-        if (!paused) loop = gsap.delayedCall(1.6, pass);
-      },
-    });
-    current = tl;
-    tl.to(van, { x: START, duration: 0 })
-      .to(van, { opacity: 1, duration: 0.2 }, 0)
-      .to(van, { x: END, duration: 4.4, ease: 'none' }, 0)
-      .call(burst, [], 2.15)
-      .call(() => showWord((index + 1) % words.length, true), [], 2.3)
-      .to(van, { opacity: 0, duration: 0.2 }, 4.2);
-    return tl;
-  };
+  loop = gsap.delayedCall(3.4, cycle);
 
-  // première apparition : elle entre et s'arrête au centre, avec une retombée
-  let current = null;
-  const intro = gsap.timeline({ delay: 0.9 });
-  current = intro;
-  intro
-    .to(van, { opacity: 1, duration: 0.25 }, 0)
-    .to(van, { x: (W - VAN_W) / 2, duration: 1.55, ease: 'power3.out' }, 0)
-    .to(van, { y: '+=8', duration: 0.16, yoyo: true, repeat: 1, ease: 'power2.inOut' }, '-=0.12')
-    .call(burst, [], '-=0.2')
-    .call(() => {
-      loop = gsap.delayedCall(1.4, pass);
-    });
-
-  // pause au survol du mot (on n'interrompt pas un passage en cours)
+  // survol : on met la rotation en pause, la vidéo continue
   const wordEl = hero.querySelector('[data-hero-word]');
   wordEl?.addEventListener('pointerenter', () => {
-    paused = true;
+    held = true;
     loop?.pause();
   });
   wordEl?.addEventListener('pointerleave', () => {
-    paused = false;
+    held = false;
     loop?.resume();
   });
 
-  // hors viewport : on met tout en pause (batterie, CPU)
+  // hors viewport : plus rien ne tourne
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting) {
           loop?.pause();
-          current?.pause();
-          video?.pause();
-        } else if (!paused) {
-          current?.resume();
+        } else if (!held) {
           loop?.resume();
         }
       },
@@ -227,4 +153,18 @@ export default function initHero(DST) {
     );
     io.observe(hero);
   }
+
+  // respect du réglage système si l'utilisateur le change en cours de route
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  mq.addEventListener?.('change', (e) => {
+    if (e.matches) {
+      loop?.pause();
+      video?.pause();
+      gsap.set(holes, { opacity: 0 });
+      gsap.set(holes[0], { opacity: 1 });
+      index = 0;
+    } else {
+      loop?.resume();
+    }
+  });
 }

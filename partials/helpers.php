@@ -152,5 +152,5 @@ function sector_color(array $config, string $slug): string
             return $s['color'];
         }
     }
-    return '#1F7A4C';
+    return '#F3C300';
 }

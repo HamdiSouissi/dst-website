@@ -52,7 +52,7 @@ $direct  = $c['direct'];
                 <b data-gauge-val>100 %</b>
                 <i><span data-gauge-fill></span></i>
               </span>
-              <img src="<?= e(asset('assets/img/frais/tomate.webp')) ?>" alt="" width="120" height="120" loading="lazy" decoding="async">
+              <img src="<?= e(asset('assets/img/photos/flotte-01.jpg')) ?>" alt="" width="64" height="64" loading="lazy" decoding="async">
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@ $direct  = $c['direct'];
                 <i><span data-gauge-fill></span></i>
                 <?= icon('snowflake', 'ph ph--flake') ?>
               </span>
-              <img src="<?= e(asset('assets/img/frais/tomate.webp')) ?>" alt="" width="120" height="120" loading="lazy" decoding="async">
+              <img src="<?= e(asset('assets/img/photos/flotte-01.jpg')) ?>" alt="" width="64" height="64" loading="lazy" decoding="async">
             </div>
           </div>
         </div>

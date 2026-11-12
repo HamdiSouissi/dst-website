@@ -10,7 +10,7 @@
  */
 $f = $config['form'];
 $transport = ['Fruits & légumes', 'Viandes', 'Poissons', 'Produits laitiers & fromages', 'Plats cuisinés', 'Pâtisseries', 'Autre'];
-$transportColors = ['#1F7A4C', '#E5334B', '#8FBF9F', '#F5DC4A', '#F39A55', '#6B4A6B', '#7A6873'];
+$transportColors = ['#F3C300', '#E5334B', '#E7C97F', '#F5DC4A', '#F39A55', '#6B4A6B', '#7A6873'];
 $frequencies = ['Une fois', 'Plusieurs fois par semaine', 'Tous les jours', 'À définir'];
 $types = ['Tournée régulière', 'Livraison ponctuelle', 'Express aujourd\'hui', 'Camionnette + chauffeur', 'Autre'];
 $token = csrf_token();

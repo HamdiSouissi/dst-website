@@ -34,23 +34,23 @@ function sticker(string $class = 'sticker', string $label = 'DST', bool $rotatin
           $a = $i * (360 / 44);
           $x = 100 + 88 * cos(deg2rad($a));
           $y = 100 + 90 * sin(deg2rad($a)); ?>
-        <circle cx="<?= round($x, 2) ?>" cy="<?= round($y, 2) ?>" r="7.5" fill="#1F7A4C"/>
+        <circle cx="<?= round($x, 2) ?>" cy="<?= round($y, 2) ?>" r="7.5" fill="#F3C300"/>
       <?php endfor; ?>
     </g>
-    <ellipse cx="100" cy="100" rx="88" ry="90" fill="#1F7A4C"/>
+    <ellipse cx="100" cy="100" rx="88" ry="90" fill="#F3C300"/>
     <ellipse cx="100" cy="100" rx="88" ry="90" fill="#000" filter="url(#<?= $id ?>-grain)" opacity=".5"/>
-    <ellipse cx="100" cy="100" rx="79" ry="81" fill="none" stroke="#FAF6EE" stroke-width="1.4" stroke-dasharray="3 4" opacity=".55"/>
+    <ellipse cx="100" cy="100" rx="79" ry="81" fill="none" stroke="#2B1A2B" stroke-width="1.4" stroke-dasharray="3 4" opacity=".55"/>
     <!-- texte circulaire -->
-    <text font-family="Instrument Sans, sans-serif" font-size="12.4" font-weight="600" letter-spacing="2.55" fill="#FAF6EE">
+    <text font-family="Instrument Sans, sans-serif" font-size="12.4" font-weight="600" letter-spacing="2.55" fill="#2B1A2B">
       <textPath href="#<?= $id ?>-circle" startOffset="4%">TRANSPORT FRIGORIFIQUE · ÎLE-DE-FRANCE ·</textPath>
     </text>
     <!-- centre -->
-    <text x="100" y="107" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="42" font-weight="800" letter-spacing="-1.5" fill="#FAF6EE"><?= htmlspecialchars($label) ?></text>
-    <text x="100" y="127" text-anchor="middle" font-family="Fragment Mono, monospace" font-size="9.4" letter-spacing="1.6" fill="#CFE8C9">0 → +4 °C</text>
+    <text x="100" y="107" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="42" font-weight="800" letter-spacing="-1.5" fill="#2B1A2B"><?= htmlspecialchars($label) ?></text>
+    <text x="100" y="127" text-anchor="middle" font-family="Fragment Mono, monospace" font-size="9.4" letter-spacing="1.6" fill="#FBF0BE">0 → +4 °C</text>
     <!-- petite feuille -->
     <g class="sticker__leaf" transform="translate(100 12)">
-      <path d="M0,-9 C11,-11 18,-3 15,5 C12,13 2,13 -2,6 C-5,0 -4,-6 0,-9 Z" fill="#CFE8C9" stroke="#1F7A4C" stroke-width="1.1"/>
-      <path d="M-1,7 C1,3 4,-1 8,-4" fill="none" stroke="#1F7A4C" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M0,-9 C11,-11 18,-3 15,5 C12,13 2,13 -2,6 C-5,0 -4,-6 0,-9 Z" fill="#FBF0BE" stroke="#F3C300" stroke-width="1.1"/>
+      <path d="M-1,7 C1,3 4,-1 8,-4" fill="none" stroke="#F3C300" stroke-width="1.1" stroke-linecap="round"/>
     </g>
   </g>
 </svg>
@@ -59,13 +59,33 @@ function sticker(string $class = 'sticker', string $label = 'DST', bool $rotatin
 }
 
 /**
- * Logotype complet : DST + 3 lignes qui se replient au scroll.
+ * La marque officielle (monogramme DS, texte circulaire, deux camionnettes),
+ * livrée en trois teintes : encre, crème, jaune.
+ */
+function brand_mark(string $class = 'brand-mark', string $tone = 'ink', string $alt = 'DST — Distribution Services Transports'): string
+{
+    $file = match ($tone) {
+        'cream' => 'logo-cream.svg',
+        'yellow' => 'logo-yellow.svg',
+        default => 'logo-ink.svg',
+    };
+    return sprintf(
+        '<img class="%s" src="%s" alt="%s" width="1920" height="1920" decoding="async" loading="lazy">',
+        htmlspecialchars($class, ENT_QUOTES),
+        e(asset('assets/img/brand/' . $file)),
+        htmlspecialchars($alt, ENT_QUOTES)
+    );
+}
+
+/**
+ * Logotype complet : la marque + DST + 3 lignes qui se replient au scroll.
  */
 function logo_markup(string $class = 'logo', string $id = '', bool $asLink = true, string $href = '#top'): string
 {
     $lines = ['Distribution', 'Services', 'Transports'];
     ob_start(); ?>
 <span class="<?= htmlspecialchars($class, ENT_QUOTES) ?>"<?= $id ? ' id="' . htmlspecialchars($id, ENT_QUOTES) . '"' : '' ?>>
+  <?= brand_mark('logo__mark', 'ink', '') ?>
   <span class="logo__word" aria-hidden="true">DST</span>
   <span class="logo__lines" aria-hidden="true">
     <?php foreach ($lines as $l): ?><span class="logo__line"><?= $l ?></span><?php endforeach; ?>

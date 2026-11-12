@@ -82,25 +82,37 @@ Si `mail()` est désactivé par l'hébergeur, activer le bloc `smtp` (voir `READ
 - `robots.txt` : la ligne `Sitemap:` contient la même URL de démonstration.
 - `sitemap.xml` : `<loc>` contient la même URL. Remplacer les deux (le reste ne change pas).
 - Bloc `seo` → `title`, `description` : relire après validation du positionnement.
-- `assets/img/og-image.jpg` : visuel 1200 × 630 pour les partages (à refaire avec la vraie
-  photo de flotte et le bon logo).
+- `assets/img/og-image.jpg` : visuel 1200 × 630 (déjà composé avec le logo officiel sur la
+  photo `hero-01`) — à refaire avec une vraie photo.
 - `google_rating` : à laisser à `null` tant qu'il n'y a pas de fiche Google Business réelle.
   Le renseigner ajoute `AggregateRating` au JSON-LD — donc à ne faire que si les avis existent.
 
 ## 7. Visuels — ⚠️ avant toute campagne
 
-Toutes les photos actuelles sont des **illustrations générées** pour la maquette (mention
-`photos_note`). À remplacer par des photographies réelles :
+Les photos livrées sont des **visuels de démonstration générés** : les camionnettes portent
+l'habillage DST (bandeau noir + filet jaune), les chauffeurs ont le gilet jaune avec l'écusson
+DST, mais ce ne sont ni les vrais véhicules, ni les vrais chauffeurs, ni les vraies adresses.
+À remplacer par un reportage photo réel dans `assets/img/photos/` (mêmes noms de fichiers =
+aucune modification de code) :
 
 | Fichier | Sujet attendu |
 |---|---|
-| `assets/img/scenes/primeur-etal.jpg` | étal de primeur livré par DST |
-| `assets/img/scenes/cuisine-restaurant.jpg` | cuisine de restaurant à la réception |
-| `assets/img/scenes/traiteur-buffet.jpg` | buffet / traiteur |
-| `assets/img/frais/*.jpg` | produits frais (cagette, tomates, fromages, pain, poisson, fruits rouges) |
-| `assets/video/frais.mp4` + `frais-poster.webp` | plan de 6–10 s sur des produits frais |
-| `assets/img/og-image.jpg` | visuel de partage |
-| `assets/img/flotte/*.svg` | silhouettes vectorielles à l'échelle (déjà propres, à garder) |
+| `photos/hero-01.jpg` | camionnette en ville, trois-quarts avant |
+| `photos/hero-02.jpg` | arrière de caisse, quais de Seine |
+| `photos/route-01.jpg` | véhicule en circulation, boulevard |
+| `photos/chargement-01.jpg` | chargement au marché de gros |
+| `photos/livraison-01.jpg` | remise de cagettes à un restaurant |
+| `photos/traiteur-01.jpg` | livraison traiteur |
+| `photos/boulangerie-01.jpg` | livraison boulangerie |
+| `photos/epicerie-01.jpg` | livraison épicerie fine |
+| `photos/interieur-01.jpg` | caisse frigorifique ouverte |
+| `photos/flotte-01.jpg` | les trois gabarits alignés |
+| `assets/video/frais.mp4` (+ affiches) | film du hero, plusieurs plans, en boucle |
+| `assets/img/og-image.jpg` | visuel de partage 1200 × 630 |
+| `assets/img/flotte/*.svg` | silhouettes à l'échelle du comparateur (à garder, recoloriées) |
+
+Après remplacement, régénérer les variantes `-640`, `-1100`, `-1600` (jpg + webp) et `-lqip`
+avec le script `tools/photos.py`, sinon le site retombe sur le `.jpg` seul (aucune casse).
 
 Après remplacement, régénérer les variantes `-640`, `-1100` (webp) et `-lqip` si l'on veut
 conserver l'effet de chargement progressif — sinon le `.jpg` seul suffit.
@@ -188,8 +200,9 @@ correspondante ; aucune icône « morte » n'est affichée.
 
 ## 13. Fichiers à ne pas déployer
 
-- `tmp-src/` (générateurs Python de tracés, de vans et de polices) — inutile en production.
+- `tools/` (script Python de génération des tailles d'images) — inutile en production.
+- `tmp-src/` s'il est encore présent (générateurs de tracés et de silhouettes).
 - `A_COMPLETER.md` (ce document).
 - `README.md` si l'on ne souhaite pas exposer la documentation (il est lisible via l'URL
-  directe ; le `.htaccess` bloque `partials|lib|storage|tmp-src` mais pas les `.md` — on peut
+  directe ; le `.htaccess` bloque `partials|lib|storage|tmp-src|tools` mais pas les `.md` — on peut
   ajouter `RedirectMatch 404 \.(md)$` si besoin).

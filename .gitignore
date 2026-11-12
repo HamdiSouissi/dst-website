@@ -3,9 +3,6 @@
 !/storage/.htaccess
 !/storage/.gitkeep
 
-# générateurs hors production (tracés, vans, polices) — à ne pas déployer
-/tmp-src/
-
 # fichiers système / éditeurs
 .DS_Store
 Thumbs.db
