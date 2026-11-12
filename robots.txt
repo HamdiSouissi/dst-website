@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /storage/
+Disallow: /lib/
+Disallow: /partials/
+Disallow: /send.php
+
+Sitemap: https://www.exemple.fr/sitemap.xml

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5.55 2.49" preserveAspectRatio="xMaxYMax meet">
+<defs>
+<linearGradient id="body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".42" stop-color="#FDFAF4"/><stop offset="1" stop-color="#E3D8C4"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="#5B4459"/><stop offset=".5" stop-color="#2B1A2B"/><stop offset="1" stop-color="#4A3648"/></linearGradient>
+<mask id="arch"><rect x="0" y="0" width="5.55" height="2.49" fill="#fff"/>
+  <circle cx="4.280" cy="2.147" r="0.406" fill="#000"/>
+  <circle cx="1.100" cy="2.147" r="0.406" fill="#000"/>
+</mask>
+<clipPath id="bodyclip"><path d="M 0.055 2.259 L 0.055 0.149 Q 0.055 0.0 0.185 0.0 L 4.030 0.0 Q 4.080 0.0 4.010 0.10 L 4.930 1.170 Q 5.150 1.190 5.280 1.245 Q 5.500 1.265 5.520 1.410 L 5.520 2.199 Q 5.520 2.259 5.420 2.259 L 0.055 2.259 Z"/></clipPath>
+</defs>
+<ellipse cx="2.775" cy="2.475" rx="2.608" ry="0.070" fill="#2B1A2B" opacity=".13"/>
+<g mask="url(#arch)">
+  <path d="M 0.055 2.259 L 0.055 0.149 Q 0.055 0.0 0.185 0.0 L 4.030 0.0 Q 4.080 0.0 4.010 0.10 L 4.930 1.170 Q 5.150 1.190 5.280 1.245 Q 5.500 1.265 5.520 1.410 L 5.520 2.199 Q 5.520 2.259 5.420 2.259 L 0.055 2.259 Z" fill="url(#body)" stroke="#2B1A2B" stroke-width="0.019" stroke-linejoin="round"/>
+  <g clip-path="url(#bodyclip)">
+    <rect x="0" y="1.370" width="4.030" height="1.121" fill="#F3ECDE" opacity=".5"/>
+    <rect x="0.02" y="1.531" width="3.980" height="0.062" fill="#1F7A4C" opacity=".9"/>
+    <rect x="0.02" y="1.596" width="3.940" height="0.013" fill="#F5DC4A" opacity=".95"/>
+    <text x="2.690" y="1.170" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="0.300" font-weight="700" letter-spacing="0.07" fill="#2B1A2B" opacity=".30">DST</text>
+    <rect x="4.010" y="0.747" width="0.30" height="0.034" rx="0.017" fill="#2B1A2B" opacity=".12"/>
+  </g>
+  <line x1="4.030" y1="0.125" x2="4.030" y2="2.239" stroke="#2B1A2B" stroke-width="0.013" opacity=".26"/>
+  <line x1="1.690" y1="0.137" x2="1.690" y2="1.419" stroke="#2B1A2B" stroke-width="0.008" opacity=".16"/>
+  <line x1="2.840" y1="0.137" x2="2.840" y2="1.419" stroke="#2B1A2B" stroke-width="0.008" opacity=".16"/>
+  <line x1="3.530" y1="0.149" x2="3.530" y2="1.494" stroke="#2B1A2B" stroke-width="0.010" opacity=".20"/>
+  <line x1="4.090" y1="1.190" x2="4.090" y2="1.544" stroke="#2B1A2B" stroke-width="0.009" opacity=".18"/>
+</g>
+<path d="M 4.075 0.145 L 4.575 0.145 L 4.630 1.115 L 4.075 1.150 Z" fill="url(#glass)" opacity=".95"/>
+<path d="M 4.610 0.15 L 4.830 1.110" stroke="#2B1A2B" stroke-width="0.014" stroke-linecap="round" opacity=".35"/>
+<path d="M 4.630 1.120 q 0.07 0 0.075 0.05 v 0.12 q 0.005 0.045 -0.075 0.045 z" fill="#2B1A2B" opacity=".82"/>
+<path d="M 4.600 1.160 h 0.03 v 0.018 h -0.03 z" fill="#2B1A2B" opacity=".5"/>
+<rect x="5.460" y="1.430" width="0.06" height="0.10" rx="0.025" fill="#F5DC4A" opacity=".95"/>
+<rect x="0.035" y="1.245" width="0.032" height="0.15" rx="0.014" fill="#E5334B" opacity=".9"/>
+<circle cx="4.280" cy="2.147" r="0.350" fill="#241625"/>
+<circle cx="4.280" cy="2.147" r="0.193" fill="#6E5C69"/>
+<circle cx="4.280" cy="2.147" r="0.105" fill="#DCD0BE"/>
+<circle cx="4.280" cy="2.147" r="0.032" fill="#2B1A2B"/>
+<circle cx="1.100" cy="2.147" r="0.350" fill="#241625"/>
+<circle cx="1.100" cy="2.147" r="0.193" fill="#6E5C69"/>
+<circle cx="1.100" cy="2.147" r="0.105" fill="#DCD0BE"/>
+<circle cx="1.100" cy="2.147" r="0.032" fill="#2B1A2B"/>
+</svg>

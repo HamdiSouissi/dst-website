@@ -1,0 +1,14 @@
+{
+  "name": "Distribution Services Transports",
+  "short_name": "DST",
+  "description": "Livraison de produits frais en camionnettes frigorifiques — Paris et Île-de-France.",
+  "lang": "fr",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF6EE",
+  "theme_color": "#1F7A4C",
+  "icons": [
+    { "src": "assets/img/sticker.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
