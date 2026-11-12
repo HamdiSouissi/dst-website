@@ -72,7 +72,6 @@ $jsonLd = [
 ];
 ?>
 <meta charset="utf-8">
-    <script>document.documentElement.classList.remove('no-js');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title><?= htmlspecialchars($seo['title'], ENT_QUOTES, 'UTF-8') ?></title>
 <meta name="description" content="<?= htmlspecialchars($seo['description'], ENT_QUOTES, 'UTF-8') ?>">

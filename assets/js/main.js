@@ -770,13 +770,15 @@ function runPreloader(gsap) {
         const tl = gsap.timeline({
             defaults: { ease: 'power2.inOut' },
             onComplete: () => {
+                /* Les portes s'ouvrent sur le contenu, puis l'overlay disparaît.
+                   Durée totale maîtrisée : ~0,9 s de séquence + 0,7 s d'ouverture. */
                 preloader.classList.add('is-open');
-                docEl.classList.add('preloader-done');
                 window.setTimeout(() => {
+                    docEl.classList.add('preloader-done');
                     docEl.classList.remove('preloading');
                     preloader.style.display = 'none';
                     resolve();
-                }, 900);
+                }, 700);
             },
         });
 
@@ -785,10 +787,10 @@ function runPreloader(gsap) {
                 .to(letters, { opacity: 1, duration: .3, stagger: .06 }, .18)
                 .to(flakes, { opacity: 1, rotate: 0, duration: .6, ease: 'power3.out' }, .28);
         }
-        tl.to(fill, { scaleX: .9, duration: 1, ease: 'power2.inOut' }, .1)
+        tl.to(fill, { scaleX: .9, duration: .78, ease: 'power2.inOut' }, .1)
             .to(value, {
                 t: 3,
-                duration: 1,
+                duration: .78,
                 ease: 'power2.inOut',
                 onUpdate: () => {
                     if (temp) temp.textContent = `${value.t.toFixed(1).replace('.', ',')} °C`;
@@ -796,8 +798,8 @@ function runPreloader(gsap) {
             }, .1)
             .call(() => {
                 if (status) status.textContent = 'Chaîne du froid activée';
-            }, null, 1.05)
-            .to({}, { duration: .25 });
+            }, null, .8)
+            .to({}, { duration: .05 });
     });
 }
 
