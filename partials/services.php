@@ -1,13 +1,13 @@
 <?php
 /** @var array $config */
 $services = $config['services'];
-$images = ['primeur', 'grossiste', 'dark-kitchen', 'primeur', 'traiteur', 'chargement'];
+$images = ['service-01', 'service-02', 'service-03', 'service-04', 'service-05', 'service-06'];
 if (!empty($config['services_options']['frozen'])) {
     $services[] = [
         'name' => 'Produits surgelés',
         'desc' => 'Transport en froid négatif jusqu\'à -18 °C.',
     ];
-    $images[] = 'grossiste';
+    $images[] = 'service-02';
 }
 ?>
 <section class="services section" id="services" data-theme="light" aria-labelledby="services-title">
@@ -32,8 +32,8 @@ if (!empty($config['services_options']['frozen'])) {
                 $img = $images[$i] ?? 'primeur';
                 ?>
                 <?php
-                $imgPath = $img === 'chargement' ? 'assets/img/chargement.webp' : 'assets/img/secteurs/' . $img . '.webp';
-                $imgSm = $img === 'chargement' ? 'assets/img/chargement-sm.webp' : 'assets/img/secteurs/' . $img . '-sm.webp';
+                $imgPath = 'assets/img/services/' . $img . '.webp';
+                $imgSm = 'assets/img/services/' . $img . '-sm.webp';
                 ?>
                 <article class="service" data-service data-image="<?= $imgPath ?>" data-image-alt="<?= htmlspecialchars($service['name'], ENT_QUOTES, 'UTF-8') ?>">
                     <button class="service__head" type="button" aria-expanded="false" aria-controls="service-panel-<?= $i + 1 ?>" data-service-toggle>
@@ -44,7 +44,7 @@ if (!empty($config['services_options']['frozen'])) {
                     <div class="service__panel" id="service-panel-<?= $i + 1 ?>" data-service-panel>
                         <div class="service__panel-inner">
                             <div class="service__mobile-media">
-                                <img src="<?= $imgSm ?>" alt="<?= htmlspecialchars($service['name'], ENT_QUOTES, 'UTF-8') ?> — DST" width="700" height="467" loading="lazy" decoding="async">
+                                <img src="<?= $imgSm ?>" alt="<?= htmlspecialchars($service['name'], ENT_QUOTES, 'UTF-8') ?> — DST" width="700" height="470" loading="lazy" decoding="async">
                             </div>
                             <p class="service__desc"><?= htmlspecialchars($service['desc'], ENT_QUOTES, 'UTF-8') ?></p>
                         </div>
@@ -55,7 +55,7 @@ if (!empty($config['services_options']['frozen'])) {
     </div>
 
     <div class="service-preview" data-service-preview aria-hidden="true">
-        <img src="assets/img/secteurs/primeur.webp" alt="" width="700" height="467" loading="lazy" data-service-preview-img>
+        <img src="assets/img/services/service-01.webp" alt="" width="700" height="470" loading="lazy" data-service-preview-img>
         <span class="service-preview__tag mono" data-service-preview-tag>01</span>
     </div>
 </section>

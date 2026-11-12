@@ -3,11 +3,11 @@
    Lenis, GSAP, header, curseur, révélations, transitions de fond, modales.
    ========================================================================== */
 
-import { initHero, refreshHero } from './hero.js';
-import { initColdChain, positionColdCurveVan } from './coldchain.js?v=1.1.3';
-import { initFleet } from './fleet.js?v=1.1.3';
+import { initHero, refreshHero } from './hero.js?v=1.1.4';
+import { initColdChain, positionColdCurveVan } from './coldchain.js?v=1.1.4';
+import { initFleet } from './fleet.js?v=1.1.4';
 import { initMap } from './map.js';
-import { initQuote } from './quote.js?v=1.1.3';
+import { initQuote } from './quote.js?v=1.1.4';
 import { initCounters } from './counters.js';
 import { initRoute } from './route.js';
 
@@ -675,22 +675,54 @@ function initCursor(gsap) {
    Footer DST
    -------------------------------------------------------------------------- */
 function initFooterGiant() {
-    const giant = $('[data-footer-dst]');
-    if (!giant) return;
-    const wrap = giant.closest('.footer__giant');
-    if (!wrap) return;
+    const wrap = $('[data-footer-giant]');
+    const giant = $('[data-footer-dst]', wrap || document);
+    if (!wrap || !giant) return;
 
+    const spots = $$('[data-footer-spot]', giant);
+    const targets = [giant, ...spots];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Même halo lumineux sur les lettres et sur les mots, au pixel près. */
     wrap.addEventListener('mousemove', (e) => {
-        const r = giant.getBoundingClientRect();
-        const x = clamp(((e.clientX - r.left) / r.width) * 100, 0, 100);
-        const y = clamp(((e.clientY - r.top) / r.height) * 100, 0, 100);
-        giant.style.setProperty('--x', `${x}%`);
-        giant.style.setProperty('--y', `${y}%`);
+        targets.forEach((el) => {
+            const r = el.getBoundingClientRect();
+            if (!r.width || !r.height) return;
+            const x = clamp(((e.clientX - r.left) / r.width) * 100, -30, 130);
+            const y = clamp(((e.clientY - r.top) / r.height) * 100, -30, 130);
+            el.style.setProperty('--x', `${x}%`);
+            el.style.setProperty('--y', `${y}%`);
+        });
     });
     wrap.addEventListener('mouseleave', () => {
-        giant.style.setProperty('--x', '-30%');
-        giant.style.setProperty('--y', '50%');
+        targets.forEach((el) => {
+            el.style.setProperty('--x', '-30%');
+            el.style.setProperty('--y', '50%');
+        });
     });
+
+    /* Apparition en cascade des trois groupes lettre + mot.
+       Le scroll natif + un filet de sécurité couvrent aussi Lenis, le repli
+       sans GSAP et les chargements où l'observateur ne se déclenche pas. */
+    if (reduceMotion) {
+        wrap.classList.add('is-visible');
+        return;
+    }
+    const reveal = () => {
+        if (wrap.classList.contains('is-visible')) return;
+        const r = wrap.getBoundingClientRect();
+        if (r.top < window.innerHeight * .95 && r.bottom > 0) {
+            wrap.classList.add('is-visible');
+            window.removeEventListener('scroll', reveal);
+            window.removeEventListener('resize', reveal);
+            window.removeEventListener('load', reveal);
+        }
+    };
+    window.addEventListener('scroll', reveal, { passive: true });
+    window.addEventListener('resize', reveal);
+    window.addEventListener('load', reveal);
+    requestAnimationFrame(reveal);
+    window.setTimeout(reveal, 1400);
 }
 
 /* --------------------------------------------------------------------------
@@ -958,6 +990,8 @@ function noGsapFallback() {
     const proof = $('[data-cold-proof]');
     if (proof) proof.classList.add('is-visible');
     $$('[data-method-path]').forEach((p) => { p.style.strokeDashoffset = '0'; });
+    const footerGiant = $('[data-footer-giant]');
+    if (footerGiant) footerGiant.classList.add('is-visible');
     /* Le formulaire, la flotte et la carte restent utilisables sans GSAP :
        seule la mise en scène disparaît. */
     try { initQuote(null, null, true); } catch (e) { console.warn('quote fallback', e); }

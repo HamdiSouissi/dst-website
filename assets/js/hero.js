@@ -18,23 +18,18 @@ export function initHero(gsap, ScrollTrigger, reduced) {
     const spark = hero.querySelector('[data-spark]');
     const badge = hero.querySelector('[data-temp-badge]');
 
-    /* --- Logo du header : tracé puis flocon ---------------------------- */
-    const logo = document.querySelector('.logo--header');
+    /* --- Logo officiel du header : apparition douce -------------------- */
+    const logo = document.querySelector('.logo--header .logo__mark');
     if (logo && !reduced) {
-        const frame = logo.querySelector('.logo-frame');
-        const letters = logo.querySelectorAll('.logo-letter');
-        const flake = logo.querySelector('.logo-flake');
-        const road = logo.querySelector('.logo-road');
-        const intro = gsap.timeline({ delay: .1 });
-        intro.fromTo(frame, { drawSVG: '0%' }, { drawSVG: '100%', duration: .9, ease: 'power2.inOut' }, 0)
-            .fromTo(letters, { opacity: 0 }, { opacity: 1, duration: .35, stagger: .07 }, .25)
-            .fromTo(flake, { rotate: -120, opacity: 0 }, { rotate: 0, opacity: 1, duration: .8, ease: 'power3.out' }, .35)
-            .fromTo(road, { scaleX: 0 }, { scaleX: 1, duration: .6, ease: 'expo.out' }, .3);
+        gsap.fromTo(logo,
+            { opacity: 0, scale: .82, transformOrigin: '50% 50%' },
+            { opacity: 1, scale: 1, duration: .8, delay: .1, ease: 'power3.out' });
     }
 
     /* --- Mouvement réduit : tout est affiché, rien ne bouge ------------ */
     if (reduced) {
-        gsap.set([...lines, ...reveals], { clearProps: 'all', opacity: 1, y: 0 });
+        gsap.set(lines, { yPercent: 0, opacity: 1 });
+        gsap.set(reveals, { clearProps: 'all', opacity: 1, y: 0 });
         if (tempEl) tempEl.textContent = '2,8';
         return;
     }
@@ -100,7 +95,7 @@ export function initHero(gsap, ScrollTrigger, reduced) {
     gsap.set(trails, { scaleX: 0, opacity: 0, transformOrigin: 'right center' });
 
     /* --- Timeline d'arrivée -------------------------------------------- */
-    gsap.set(lines, { yPercent: 112 });
+    gsap.set(lines, { yPercent: 112, opacity: 1 });
     gsap.set(reveals, { opacity: 0, y: 24 });
     if (van) {
         gsap.set(van, { xPercent: -120, opacity: 0, rotation: -1.6, filter: 'blur(8px)' });
@@ -138,6 +133,7 @@ export function initHero(gsap, ScrollTrigger, reduced) {
 
     intro.to(lines, {
         yPercent: 0,
+        opacity: 1,
         duration: 1.15,
         stagger: .1,
         ease: 'expo.out',

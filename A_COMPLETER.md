@@ -121,7 +121,8 @@ Le site est livré avec des **visuels d'illustration** pour ne jamais afficher d
 | Vidéo du hero | `assets/video/hero.mp4` | Plan court (8–12 s), sans son, 1280×720 ou 1920×1080, < 3 Mo |
 | Camionnettes | Photos détourées de démonstration + logo noir DST dans `assets/img/flotte/` | Photos réelles des 4 véhicules DST, même cadrage trois quarts avant |
 | Secteurs (8 tuiles) | `assets/img/secteurs/*.webp` (+ `-sm`) | Photos réelles : restaurant, traiteur, boulangerie, primeur, poissonnerie, épicerie, dark kitchen, grossiste |
-| Engagements | `assets/img/chargement.webp` (+ `-sm`) | Photo du chargement d'un caisson, porte ouverte |
+| Services (6 visuels) | `assets/img/services/*.webp` (+ `-sm`) | Photos réelles des tournées, chargements et livraisons avec les véhicules DST |
+| Engagements | `assets/img/chargement.webp` (+ `-sm`) | Photo réelle d'un caisson propre ouvert, avec cartons |
 | Image Open Graph | `assets/img/og-image.jpg` | Recréer avec les photos définitives (logo officiel déjà intégré, 1200 × 630) |
 
 **Le logo officiel est intégré ; les photos actuelles restent des images d'illustration générées pour
@@ -131,7 +132,7 @@ sous licence tierce sont ajoutées, renseigner `image_credits` (auteur, licence,
 s'affichent dans les mentions légales.
 
 **Procédure de remplacement :** conserver les mêmes noms de fichiers et les mêmes dimensions
-(`1400×933` pour les secteurs, `1200×1500` pour le chargement, `1600×900` pour le poster)
+(`1400×933` pour les secteurs, `1200×2150` pour le chargement, `1600×900` pour le poster)
 pour ne rien casser. Les versions `-sm` sont les variantes mobile.
 
 ---

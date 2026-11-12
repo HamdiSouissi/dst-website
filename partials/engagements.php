@@ -7,7 +7,7 @@ $trust = $config['stats']['trust'];
     <div class="container commit__grid">
         <figure class="commit__visual" data-doors>
             <div class="commit__media">
-                <img src="assets/img/chargement.webp" alt="Chargement de caisses de produits frais dans une camionnette frigorifique DST, tôt le matin"
+                <img src="assets/img/chargement.webp" alt="Camionnette frigorifique DST propre, caisson ouvert et chargée de cartons de produits frais"
                      width="1200" height="2150" loading="lazy" decoding="async">
                 <span class="sector__shutter sector__shutter--left" aria-hidden="true"></span>
                 <span class="sector__shutter sector__shutter--right" aria-hidden="true"></span>

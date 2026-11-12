@@ -22,6 +22,7 @@ $navItems = [
 ];
 ?>
 <footer class="footer" data-theme="dark">
+    <img class="footer__watermark" src="assets/img/logo-dst-givre.svg" alt="" aria-hidden="true" decoding="async">
     <div class="container footer__grid">
         <div class="footer__brand">
             <?= dst_logo('#top', 'logo--footer', 'footer') ?>
@@ -70,8 +71,21 @@ $navItems = [
         </div>
     </div>
 
-    <div class="footer__giant" aria-hidden="true">
-        <span class="footer__giant-text" data-footer-dst>DST</span>
+    <div class="footer__giant" aria-hidden="true" data-footer-giant>
+        <div class="footer__giant-text" data-footer-dst>
+            <span class="footer__letter" style="--i: 0">
+                <span class="footer__letter-char" data-footer-spot>D</span>
+                <span class="footer__letter-word" data-footer-spot>Distribution</span>
+            </span>
+            <span class="footer__letter" style="--i: 1">
+                <span class="footer__letter-char" data-footer-spot>S</span>
+                <span class="footer__letter-word" data-footer-spot>Services</span>
+            </span>
+            <span class="footer__letter" style="--i: 2">
+                <span class="footer__letter-char" data-footer-spot>T</span>
+                <span class="footer__letter-word" data-footer-spot>Transports</span>
+            </span>
+        </div>
     </div>
 
     <div class="container footer__bottom">

@@ -136,8 +136,10 @@ Le site est livré **complet et fonctionnel** avec :
   ce sont des visuels photoréalistes de démonstration, pas encore les véhicules réels de DST ;
 - le **logo officiel** fourni (`assets/img/logo-dst.svg`), décliné en citron pour l'en-tête, le pied
   de page et le préchargeur, et en noir pour les favicons, l'Open Graph et l'habillage des vans ;
-- des **photographies d'illustration** dans `assets/img/secteurs/` et `assets/img/chargement.webp`
-  (visuels de démonstration, à remplacer par les photos réelles de la flotte et des livraisons) ;
+- des **scènes de livraison générées à partir des camionnettes DST** dans `assets/img/services/`
+  (route, chargement, déchargement, chauffeurs avec badge DST sur le gilet) et une photo de
+  `assets/img/chargement.webp` montrant un caisson ouvert propre avec des cartons ;
+- des **photographies d'illustration** dans `assets/img/secteurs/` pour le bento des secteurs ;
 - une **vidéo de hero** générée à partir de l'image de Paris (`assets/video/hero.mp4`), 8 s, 170 Ko,
   sans son, avec poster WebP.
 
@@ -175,7 +177,7 @@ partials/
   hero.php                 Hero vidéo, photo camionnette, thermomètre, chiffres
   marquee.php              Bandeau des secteurs
   chaine-froid.php         Section épinglée, courbe de température + camion suiveur
-  services.php             Liste éditoriale au survol / accordéon mobile
+  services.php             Liste éditoriale + visuels de la flotte DST
   flotte.php               Showroom 4 véhicules
   zone.php                 Carte réelle de l'Île-de-France (8 départements)
   secteurs.php             Bento photographique
@@ -257,9 +259,13 @@ storage/                   Données du formulaire (protégées)
   `sizes`, un préchargement `imagesrcset`/`imagesizes` et des attributs `width`/`height` explicites
   pour éviter tout décalage de mise en page.
 - Si les CDN d'animation sont indisponibles, le repli sans GSAP garde le formulaire, le showroom de la
-  flotte et la carte interactifs ; seules les mises en scène disparaissent.
+  flotte, la carte et le pied de page géant visibles ; seules les mises en scène disparaissent.
 - Une petite camionnette suit la courbe de relevé de température dans la section « chaîne du froid » ;
   le repli sans GSAP la place directement au point de livraison.
+- Le titre du hero est piloté uniquement par GSAP : plus aucune transformation CSS résiduelle ne le
+  fait disparaître après le préchargeur.
+- Le footer reprend le logo officiel en filigrane et déploie « Distribution / Services / Transports »
+  sous D, S et T avec la même animation de halo et une apparition en cascade.
 - La carte et les icônes restent inline ; le logo officiel est un SVG externe décliné en noir,
   citron et givre pour s’adapter au fond sans perdre en netteté.
 - Le formulaire conserve un brouillon dans `sessionStorage` : un retour arrière ne perd aucune saisie.
