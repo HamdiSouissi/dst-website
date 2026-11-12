@@ -7,7 +7,7 @@ PHP natif, aucune base de données, aucun build. Déposer les fichiers sur un h�
 - **Aucune dépendance serveur** : ni Composer, ni Node, ni base de données
 - **GSAP 3.13**, ScrollTrigger, SplitText, DrawSVG, MotionPath, Flip, ScrambleText + **Lenis** via CDN
 - **CSS et JS écrits à la main**, modules ES natifs
-- Palette « Givre & Mandarine » — **aucun bleu**
+- Palette « Givre & Citron » (jaune + prune, neutres chauds) — **aucun bleu**
 
 ---
 
@@ -130,8 +130,9 @@ ouvrable directement dans Excel ou LibreOffice.
 
 Le site est livré **complet et fonctionnel** avec :
 
-- une camionnette **dessinée en SVG** (`partials/icons.php` → `dst_van()`), déclinée en 4 silhouettes
-  (Master, Transit Custom, Jumpy, Caddy). Aucune photo détourée n'est nécessaire pour démarrer ;
+- **4 photos détourées de camionnettes** (Master, Transit Custom, Jumpy, Caddy) dans
+  `assets/img/flotte/`, en WebP transparent, utilisées dans le hero, le showroom et le formulaire.
+  Ce sont des visuels photoréalistes de démonstration, pas encore les véhicules réels de DST ;
 - des **photographies d'illustration** dans `assets/img/secteurs/` et `assets/img/chargement.webp`
   (visuels de démonstration, à remplacer par les photos réelles de la flotte et des livraisons) ;
 - une **vidéo de hero** générée à partir de l'image de Paris (`assets/video/hero.mp4`), 8 s, 170 Ko,
@@ -139,12 +140,16 @@ Le site est livré **complet et fonctionnel** avec :
 
 Pour utiliser les vraies photos de la flotte :
 
-1. photographier chaque véhicule sur fond neutre, même orientation, lumière du matin ;
-2. détourer (remove.bg, Photoroom, Photopea), exporter en WebP transparent 1600 px et 800 px ;
-3. déposer les fichiers dans `assets/img/flotte/` ;
-4. remplacer, dans `partials/icons.php`, l'appel `dst_van($slug)` par une balise `<img>` dans
-   `partials/hero.php` et `partials/flotte.php` (le showroom attend une image ou un SVG de même ratio) ;
+1. photographier chaque véhicule sur fond uni (vert écran ou fond clair), même orientation trois quarts avant ;
+2. détourer (Photoroom, remove.bg, Photopea) et exporter en **WebP transparent** :
+   `assets/img/flotte/{master,transit,jumpy,caddy}.webp` (≈1400 px) et `-sm.webp` (≈700 px) ;
+3. conserver les noms de fichiers : `config.php` → `fleet[].image`, `image_sm`, `image_w`, `image_h`
+   alimente automatiquement le hero, les onglets, le showroom et la suggestion de véhicule ;
+4. si le cadrage change, mettre à jour `image_w` / `image_h` (ratio) pour éviter tout décalage ;
 5. renseigner les crédits dans `config.php` → `image_credits` s'il s'agit d'images sous licence tierce.
+
+Le hero utilise `assets/img/flotte/master.webp`. Pour un autre véhicule, modifier la balise `<img>`
+de `partials/hero.php`.
 
 Les visuels de démonstration ne nécessitent aucune attribution. Si des photos Wikimedia Commons sont
 utilisées, leurs crédits (auteur, licence, lien) doivent être ajoutés dans `image_credits` : ils
@@ -161,22 +166,22 @@ send.php                   Traitement du formulaire (JSON)
 partials/
   head.php                 Métas, SEO, JSON-LD LocalBusiness + FAQPage, polices
   logo.php                 Monogramme DST animable
-  icons.php                Icônes au trait, réseaux sociaux, camionnettes SVG
+  icons.php                Icônes au trait, réseaux sociaux, secours camionnettes SVG
   preloader.php            Préchargeur thermomètre + portes de caisson
   header.php               Header fixe, nav, menu mobile, barre de progression
-  hero.php                 Hero vidéo, camionnette, thermomètre, chiffres
+  hero.php                 Hero vidéo, photo camionnette, thermomètre, chiffres
   marquee.php              Bandeau des secteurs
   chaine-froid.php         Section épinglée, courbe de température
   services.php             Liste éditoriale au survol / accordéon mobile
   flotte.php               Showroom 4 véhicules
-  zone.php                 Carte schématique de l'Île-de-France
+  zone.php                 Carte réelle de l'Île-de-France (8 départements)
   secteurs.php             Bento photographique
   engagements.php          Engagements + compteurs
   methode.php              Les 3 étapes
   temoignages.php          Section conditionnelle (masquée si aucun avis)
   devis.php                Formulaire multi-étapes
   faq.php                  Accordéon + JSON-LD
-  contact-band.php         Bande mandarine
+  contact-band.php         Bande citron
   footer.php               Footer, grand DST, crédits
   modal-legal.php          Mentions légales
   modal-privacy.php        Politique de confidentialité (RGPD)
@@ -210,7 +215,7 @@ storage/                   Données du formulaire (protégées)
 - Vidéo `muted playsinline loop autoplay` + poster ; coupée si `prefers-reduced-motion` ou `saveData`.
 - GSAP et Lenis en `defer` ; animations limitées à `transform` / `opacity`.
 - `.htaccess` : HTTPS, compression, cache long, en-têtes de sécurité, CSP adaptée aux CDN.
-- Navigation clavier complète, focus visible menthe, lien d'évitement, modales avec focus piégé,
+- Navigation clavier complète, focus visible jaune, lien d'évitement, modales avec focus piégé,
   formulaire annoncé en `aria-live`, carte avec équivalent textuel, décorations en `aria-hidden`.
 - `prefers-reduced-motion` : Lenis et animations désactivés, contenus immédiatement visibles.
 
@@ -245,10 +250,13 @@ storage/                   Données du formulaire (protégées)
 
 - Le fond de page est interpolé au scroll entre carbone et givre par `main.js` ; les sections n'ont
   volontairement pas de fond propre pour que la transition reste continue.
-- Les camionnettes sont des SVG inline : elles restent nettes à toutes les tailles et ne pèsent rien.
+- Les camionnettes sont des photos WebP transparentes, servies en `srcset` (≈1200 px / 700 px) avec
+  `sizes`, un préchargement `imagesrcset`/`imagesizes` et des attributs `width`/`height` explicites
+  pour éviter tout décalage de mise en page.
+- Si les CDN d'animation sont indisponibles, le repli sans GSAP garde le formulaire, le showroom de la
+  flotte et la carte interactifs ; seules les mises en scène disparaissent.
+- Les SVG restants (carte, logo, icônes) sont inline : ils héritent des couleurs du thème et restent nets.
 - Le formulaire conserve un brouillon dans `sessionStorage` : un retour arrière ne perd aucune saisie.
-- Les identifiants des dégradés SVG sont suffixés à la volée lorsque les camionnettes sont clonées
-  (fiche véhicule, suggestion de volume) pour éviter les collisions d'`id`.
 - Aucun témoignage n'est inventé : `testimonials` est vide et la section n'existe pas tant que le client
   n'a pas fourni de vrais avis.
 

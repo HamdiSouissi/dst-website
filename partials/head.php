@@ -76,7 +76,7 @@ $jsonLd = [
 <title><?= htmlspecialchars($seo['title'], ENT_QUOTES, 'UTF-8') ?></title>
 <meta name="description" content="<?= htmlspecialchars($seo['description'], ENT_QUOTES, 'UTF-8') ?>">
 <link rel="canonical" href="<?= htmlspecialchars($seo['url'], ENT_QUOTES, 'UTF-8') ?>">
-<meta name="theme-color" content="#0D0F0E">
+<meta name="theme-color" content="#0E0D0B">
 <meta name="color-scheme" content="dark light">
 <meta name="author" content="Prime Vision Solutions">
 <meta name="format-detection" content="telephone=no">
@@ -107,10 +107,11 @@ $jsonLd = [
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preload" as="image" href="assets/img/hero-poster.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/flotte/master.webp" imagesrcset="assets/img/flotte/master-sm.webp 700w, assets/img/flotte/master.webp 1270w" imagesizes="(max-width: 899px) 92vw, 54vw" type="image/webp" fetchpriority="high">
 
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&amp;display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&amp;family=Inter:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=1.0.0">
+<link rel="stylesheet" href="assets/css/style.css?v=1.1.2">
 
 <script>
 /* JS disponible ? (dégradation gracieuse) */

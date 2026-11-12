@@ -38,12 +38,12 @@ $steps = [
                     </div>
 
                     <svg class="cold__chart" viewBox="0 0 760 330" fill="none" aria-hidden="true" data-cold-chart>
-                        <g class="cold__grid" stroke="#26302B" stroke-width="1" stroke-dasharray="2 6">
+                        <g class="cold__grid" stroke="#2A2620" stroke-width="1" stroke-dasharray="2 6">
                             <path d="M84 90h636M84 126h636M84 162h636M84 198h636M84 234h636M84 270h636"/>
                         </g>
-                        <rect class="cold__zone" x="84" y="198" width="636" height="72" fill="#5CF2B0" fill-opacity=".055"/>
-                        <path class="cold__zone-line" d="M84 198h636M84 270h636" stroke="#5CF2B0" stroke-opacity=".28" stroke-width="1"/>
-                        <g class="cold__axis mono" fill="#7E8A83" font-size="11">
+                        <rect class="cold__zone" x="84" y="198" width="636" height="72" fill="#FFD23F" fill-opacity=".055"/>
+                        <path class="cold__zone-line" d="M84 198h636M84 270h636" stroke="#FFD23F" stroke-opacity=".28" stroke-width="1"/>
+                        <g class="cold__axis mono" fill="#8B8475" font-size="11">
                             <text x="60" y="94">8 °C</text>
                             <text x="60" y="130">6</text>
                             <text x="60" y="166">4</text>
@@ -51,24 +51,20 @@ $steps = [
                             <text x="60" y="274">0</text>
                         </g>
                         <path class="cold__curve-glow" d="M84 240 C130 232 160 246 206 238 S280 224 330 232 S410 244 456 234 S540 220 588 228 S680 238 720 230"
-                              stroke="#5CF2B0" stroke-opacity=".22" stroke-width="9" stroke-linecap="round"/>
+                              stroke="#FFD23F" stroke-opacity=".22" stroke-width="9" stroke-linecap="round"/>
                         <path class="cold__curve" data-cold-curve pathLength="1"
                               d="M84 240 C130 232 160 246 206 238 S280 224 330 232 S410 244 456 234 S540 220 588 228 S680 238 720 230"
-                              stroke="#5CF2B0" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1" stroke-dashoffset="1"/>
-                        <circle class="cold__curve-dot" data-cold-dot cx="720" cy="230" r="4.5" fill="#5CF2B0"/>
+                              stroke="#FFD23F" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1" stroke-dashoffset="1"/>
+                        <circle class="cold__curve-dot" data-cold-dot cx="720" cy="230" r="4.5" fill="#FFD23F"/>
 
                         <g class="cold__road" aria-hidden="true">
-                            <path d="M20 330 L330 250 H610 L748 330 Z" fill="#161A18"/>
+                            <path d="M20 330 L330 250 H610 L748 330 Z" fill="#171512"/>
                             <path d="M20 330 L330 250 M748 330 L610 250" stroke="#3A4740" stroke-width="1.4"/>
-                            <path d="M376 250 L352 330" stroke="#5CF2B0" stroke-opacity=".35" stroke-width="1.4" stroke-dasharray="8 10"/>
-                            <path d="M610 250 L678 330" stroke="#5CF2B0" stroke-opacity=".2" stroke-width="1.4" stroke-dasharray="8 10"/>
-                            <path d="M120 330 H700" stroke="#26302B" stroke-width="1"/>
+                            <path d="M376 250 L352 330" stroke="#FFD23F" stroke-opacity=".35" stroke-width="1.4" stroke-dasharray="8 10"/>
+                            <path d="M610 250 L678 330" stroke="#FFD23F" stroke-opacity=".2" stroke-width="1.4" stroke-dasharray="8 10"/>
+                            <path d="M120 330 H700" stroke="#2A2620" stroke-width="1"/>
                         </g>
                     </svg>
-
-                    <div class="cold__van" data-cold-van aria-hidden="true">
-                        <?= dst_van('transit', 'van--cold') ?>
-                    </div>
 
                     <div class="cold__delivery" data-cold-delivery aria-hidden="true">
                         <span class="cold__flag"><?= dst_icon('map-pin', '', 18) ?></span>

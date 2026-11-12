@@ -18,8 +18,8 @@ $steps = [
         <div class="method__track">
             <svg class="method__route" viewBox="0 0 1200 120" fill="none" aria-hidden="true" data-method-route>
                 <path d="M40 78 C180 78 220 30 360 34 S520 88 660 84 S860 26 1000 34 S1120 62 1160 54"
-                      stroke="#5CF2B0" stroke-width="1.6" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" data-method-path/>
-                <circle data-method-dot cx="40" cy="78" r="4" fill="#5CF2B0"/>
+                      stroke="#FFD23F" stroke-width="1.6" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" data-method-path/>
+                <circle data-method-dot cx="40" cy="78" r="4" fill="#FFD23F"/>
             </svg>
 
             <ol class="method__steps">

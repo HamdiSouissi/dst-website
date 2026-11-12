@@ -5,9 +5,9 @@
 
 import { initHero, refreshHero } from './hero.js';
 import { initColdChain } from './coldchain.js';
-import { initFleet } from './fleet.js';
+import { initFleet } from './fleet.js?v=1.1.2';
 import { initMap } from './map.js';
-import { initQuote } from './quote.js';
+import { initQuote } from './quote.js?v=1.1.2';
 import { initCounters } from './counters.js';
 import { initRoute } from './route.js';
 
@@ -46,7 +46,7 @@ function mixColors(a, b, t) {
     return `rgb(${out[0]}, ${out[1]}, ${out[2]})`;
 }
 
-const THEMES = { dark: '#0D0F0E', light: '#F2F5F0' };
+const THEMES = { dark: '#0E0D0B', light: '#F5F2E8' };
 
 /* --------------------------------------------------------------------------
    Header, progression, nav active
@@ -492,12 +492,18 @@ let bgTicking = false;
 function updateBackgroundTheme() {
     if (!themeStops.length) return;
     const mid = window.scrollY + window.innerHeight * 0.42;
+    /* Positions recalculées à chaque frame : les sections épinglées (ScrollTrigger)
+       décalent la page, un cache d'offset rendrait les thèmes faux. */
+    const stops = themeStops.map((stop) => ({
+        theme: stop.theme,
+        top: stop.el.getBoundingClientRect().top + window.scrollY,
+    }));
     let currentIndex = 0;
-    for (let i = 0; i < themeStops.length; i++) {
-        if (themeStops[i].top <= mid) currentIndex = i;
+    for (let i = 0; i < stops.length; i++) {
+        if (stops[i].top <= mid) currentIndex = i;
     }
-    const current = themeStops[currentIndex];
-    const previous = themeStops[currentIndex - 1] || current;
+    const current = stops[currentIndex];
+    const previous = stops[currentIndex - 1] || current;
     const transition = Math.min(340, window.innerHeight * 0.4);
     const start = current.top - transition * 0.35;
     const t = clamp((mid - start) / transition, 0, 1);
@@ -957,8 +963,11 @@ function noGsapFallback() {
     const proof = $('[data-cold-proof]');
     if (proof) proof.classList.add('is-visible');
     $$('[data-method-path]').forEach((p) => { p.style.strokeDashoffset = '0'; });
-    /* Le formulaire reste utilisable sans GSAP : seule la mise en scène disparaît. */
+    /* Le formulaire, la flotte et la carte restent utilisables sans GSAP :
+       seule la mise en scène disparaît. */
     try { initQuote(null, null, true); } catch (e) { console.warn('quote fallback', e); }
+    try { initFleet(null, null, true); } catch (e) { console.warn('fleet fallback', e); }
+    try { initMap(null, null, true); } catch (e) { console.warn('map fallback', e); }
 }
 
 async function boot() {

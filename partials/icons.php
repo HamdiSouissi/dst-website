@@ -164,7 +164,7 @@ if (!function_exists('dst_van')) {
             . '<stop offset="0" stop-color="#1b211e"/><stop offset="1" stop-color="#0f1211"/>'
             . '</linearGradient>'
             . '<linearGradient id="vanGlow-' . $uid . '" x1="0" y1="0" x2="1" y2="0">'
-            . '<stop offset="0" stop-color="#5CF2B0" stop-opacity="0"/><stop offset="1" stop-color="#5CF2B0" stop-opacity=".55"/>'
+            . '<stop offset="0" stop-color="#FFD23F" stop-opacity="0"/><stop offset="1" stop-color="#FFD23F" stop-opacity=".55"/>'
             . '</linearGradient>'
             . '</defs>'
             . '<ellipse cx="' . (($rear + $nose) / 2) . '" cy="' . ($floor + 38) . '" rx="' . (($nose - $rear) / 2 + 30) . '" ry="18" fill="#000" opacity=".55" filter="url(#vanShadow-' . $uid . ')"/>'

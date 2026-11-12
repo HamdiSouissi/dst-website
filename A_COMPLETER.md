@@ -117,8 +117,9 @@ Le site est livré avec des **visuels d'illustration** pour ne jamais afficher d
 | Emplacement | Fichier actuel | À remplacer par |
 |---|---|---|
 | Photo du hero (poster) | `assets/img/hero-poster.webp` (+ `-sm`) | Photo réelle d'une camionnette DST en tournée, Paris en arrière-plan |
+| Camionnette du hero | `assets/img/flotte/master.webp` (+ `-sm`) | Photo du véhicule réel (mêmes dimensions) |
 | Vidéo du hero | `assets/video/hero.mp4` | Plan court (8–12 s), sans son, 1280×720 ou 1920×1080, < 3 Mo |
-| Camionnettes | SVG dans `partials/icons.php` (`dst_van()`) | Photos détourées (WebP transparent) ou SVG définitifs |
+| Camionnettes | Photos détourées de démonstration dans `assets/img/flotte/` | Photos réelles des 4 véhicules DST, même cadrage trois quarts avant |
 | Secteurs (8 tuiles) | `assets/img/secteurs/*.webp` (+ `-sm`) | Photos réelles : restaurant, traiteur, boulangerie, primeur, poissonnerie, épicerie, dark kitchen, grossiste |
 | Engagements | `assets/img/chargement.webp` (+ `-sm`) | Photo du chargement d'un caisson, porte ouverte |
 | Image Open Graph | `assets/img/og-image.jpg` | Recréer avec le visuel définitif (1200 × 630) |

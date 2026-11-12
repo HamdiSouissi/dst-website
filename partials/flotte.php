@@ -29,7 +29,14 @@ $frozen = !empty($config['services_options']['frozen']);
 
                 <div class="fleet__van-holder" data-fleet-van-holder data-cursor="view">
                     <div class="fleet__van" data-fleet-van>
-                        <?= dst_van($first['slug'], 'van--fleet') ?>
+                        <img class="fleet__van-img"
+                             src="<?= htmlspecialchars($first['image'], ENT_QUOTES, 'UTF-8') ?>"
+                             srcset="<?= htmlspecialchars($first['image_sm'], ENT_QUOTES, 'UTF-8') ?> 700w,
+                                     <?= htmlspecialchars($first['image'], ENT_QUOTES, 'UTF-8') ?> <?= (int) $first['image_w'] ?>w"
+                             sizes="(max-width: 1100px) 96vw, 46vw"
+                             width="<?= (int) $first['image_w'] ?>" height="<?= (int) $first['image_h'] ?>"
+                             alt="Camionnette frigorifique <?= htmlspecialchars($first['name'], ENT_QUOTES, 'UTF-8') ?> de DST, vue trois quarts avant"
+                             decoding="async">
                     </div>
                     <span class="fleet__van-tag mono" data-fleet-tag><?= htmlspecialchars($first['tag'], ENT_QUOTES, 'UTF-8') ?></span>
                 </div>
@@ -69,7 +76,11 @@ $frozen = !empty($config['services_options']['frozen']);
                                 aria-pressed="<?= $i === 0 ? 'true' : 'false' ?>"
                                 data-fleet-tab="<?= $i ?>"
                                 data-slug="<?= $vehicle['slug'] ?>">
-                            <span class="fleet-tab__van" aria-hidden="true"><?= dst_van($vehicle['slug'], 'van--tab') ?></span>
+                            <span class="fleet-tab__van" aria-hidden="true">
+                                <img src="<?= htmlspecialchars($vehicle['image_sm'], ENT_QUOTES, 'UTF-8') ?>"
+                                     width="<?= (int) $vehicle['image_w'] ?>" height="<?= (int) $vehicle['image_h'] ?>"
+                                     alt="" loading="lazy" decoding="async">
+                            </span>
                             <span class="fleet-tab__name"><?= htmlspecialchars($vehicle['name'], ENT_QUOTES, 'UTF-8') ?></span>
                         </button>
                     <?php endforeach; ?>

@@ -60,7 +60,13 @@ $frozen    = !empty($config['services_options']['frozen']);
             </div>
 
             <div class="hero__van" data-hero-van>
-                <?= dst_van('master', 'van--hero') ?>
+                <img class="van-photo"
+                     src="assets/img/flotte/master.webp"
+                     srcset="assets/img/flotte/master-sm.webp 700w, assets/img/flotte/master.webp 1270w"
+                     sizes="(max-width: 899px) 92vw, 54vw"
+                     width="1270" height="682"
+                     alt="Camionnette frigorifique blanche Renault Master de DST, vue trois quarts avant"
+                     fetchpriority="high" decoding="async">
             </div>
 
             <div class="temp-badge" data-temp-badge aria-hidden="true">
@@ -74,7 +80,7 @@ $frozen    = !empty($config['services_options']['frozen']);
                 </span>
                 <svg class="temp-badge__spark" viewBox="0 0 92 26" fill="none" aria-hidden="true">
                     <polyline data-spark points="2,17 10,14 18,16 26,10 34,13 42,9 50,12 58,8 66,11 74,7 82,10 90,6"
-                              stroke="#5CF2B0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                              stroke="#FFD23F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span class="temp-badge__note mono"><?= $frozen ? '-18 → +4 °C' : '0 → +4 °C' ?></span>
             </div>

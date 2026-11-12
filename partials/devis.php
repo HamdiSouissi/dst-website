@@ -161,7 +161,9 @@ $frequencies = ['Une fois', 'Plusieurs fois par semaine', 'Tous les jours', 'À 
                         <input class="range" type="range" id="volume" name="volume" min="1" max="10" step="1" value="5" aria-describedby="vehicle-suggestion">
                         <div class="range__scale mono" aria-hidden="true"><span>&lt; 1 m³</span><span>5 m³</span><span>10 m³ et +</span></div>
                         <div class="vehicle-suggestion" id="vehicle-suggestion">
-                            <span class="vehicle-suggestion__van" data-suggest-van aria-hidden="true"><?= dst_van('transit', 'van--suggest') ?></span>
+                            <span class="vehicle-suggestion__van" data-suggest-van aria-hidden="true">
+                                <img src="assets/img/flotte/transit-sm.webp" width="1176" height="669" alt="" loading="lazy" decoding="async">
+                            </span>
                             <span class="vehicle-suggestion__text">
                                 Véhicule conseillé : <strong data-suggest-name>Ford Transit Custom</strong>
                             </span>

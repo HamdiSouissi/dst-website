@@ -206,13 +206,12 @@ export function initQuote(gsap, ScrollTrigger, reduced) {
 
     const buildSuggestVan = (slug) => {
         if (!suggestVan) return;
-        const source = document.querySelector(`#fleet-tab-${slug} .van-svg`);
-        if (!source) return;
-        let html = source.outerHTML
-            .replace(/id="([^"]+)"/g, 'id="$1-suggest"')
-            .replace(/url\(#([^)]+)\)/g, 'url(#$1-suggest)')
-            .replace(/class="van-svg[^"]*"/, 'class="van-svg van--suggest"');
-        suggestVan.innerHTML = html;
+        const img = suggestVan.querySelector('img');
+        const source = document.querySelector(`#fleet-tab-${slug} img`);
+        if (!img || !source) return;
+        img.src = source.getAttribute('src') || '';
+        if (source.getAttribute('width')) img.width = source.getAttribute('width');
+        if (source.getAttribute('height')) img.height = source.getAttribute('height');
     };
 
     const updateVolume = () => {

@@ -46,20 +46,8 @@ export function initFleet(gsap, ScrollTrigger, reduced) {
         indicator.style.transform = `translateX(${tab.offsetLeft}px)`;
     };
 
-    const vanMarkup = (targetIndex) => {
-        const source = tabs[targetIndex]?.querySelector('.van-svg');
-        if (!source) return '';
-        let html = source.outerHTML;
-        html = html
-            .replace(/id="([^"]+)"/g, 'id="$1-stage"')
-            .replace(/url\(#([^)]+)\)/g, 'url(#$1-stage)')
-            .replace(/class="van-svg van--tab"/, 'class="van-svg van--fleet"')
-            .replace(/class="van-svg([^"]*)van--tab([^"]*)"/, 'class="van-svg$1van--fleet$2"');
-        return html;
-    };
-
     const setSpecs = (v) => {
-        if (!reduced && window.ScrambleTextPlugin) {
+        if (!reduced && gsap && window.ScrambleTextPlugin) {
             const scramble = (el, text, chars) => {
                 if (!el) return;
                 gsap.to(el, {
@@ -91,11 +79,18 @@ export function initFleet(gsap, ScrollTrigger, reduced) {
         positionIndicator();
     };
 
+    const stageImg = vanHolder ? vanHolder.querySelector('img') : null;
+
     const swapContent = (nextIndex) => {
         const v = vehicles[nextIndex];
-        const markup = vanMarkup(nextIndex);
-        if (vanHolder && markup) {
-            vanHolder.innerHTML = markup;
+        if (stageImg && v.image) {
+            stageImg.src = v.image;
+            if (v.image_sm && v.image_w) {
+                stageImg.srcset = `${v.image_sm} 700w, ${v.image} ${v.image_w}w`;
+            }
+            stageImg.alt = `Camionnette frigorifique ${v.name} de DST, vue trois quarts avant`;
+            if (v.image_w) stageImg.width = v.image_w;
+            if (v.image_h) stageImg.height = v.image_h;
         }
         setSpecs(v);
         if (nameEl) nameEl.textContent = v.name;
@@ -109,7 +104,7 @@ export function initFleet(gsap, ScrollTrigger, reduced) {
         const dir = target > index ? 1 : -1;
         const travel = 160;
 
-        if (reduced) {
+        if (reduced || !gsap) {
             index = target;
             swapContent(index);
             setActiveTab();
@@ -252,20 +247,22 @@ export function initFleet(gsap, ScrollTrigger, reduced) {
     document.fonts?.ready.then(positionIndicator).catch(() => {});
 
     setActiveTab();
-    ScrollTrigger.create({
-        trigger: root,
-        start: 'top 80%',
-        once: true,
-        onEnter: () => {
-            if (!reduced) {
-                gsap.from(root.querySelectorAll('.fleet-tab'), {
-                    opacity: 0,
-                    y: 16,
-                    duration: .7,
-                    stagger: .08,
-                    ease: 'power3.out',
-                });
-            }
-        },
-    });
+    if (ScrollTrigger && gsap) {
+        ScrollTrigger.create({
+            trigger: root,
+            start: 'top 80%',
+            once: true,
+            onEnter: () => {
+                if (!reduced) {
+                    gsap.from(root.querySelectorAll('.fleet-tab'), {
+                        opacity: 0,
+                        y: 16,
+                        duration: .7,
+                        stagger: .08,
+                        ease: 'power3.out',
+                    });
+                }
+            },
+        });
+    }
 }

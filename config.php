@@ -92,6 +92,10 @@ return [
             'charge'   => '~1 000 kg',
             'usage'    => 'Tournées complètes, grossistes, gros volumes',
             'tag'      => 'Le volume',
+            'image'    => 'assets/img/flotte/master.webp',
+            'image_sm' => 'assets/img/flotte/master-sm.webp',
+            'image_w'  => 1270,
+            'image_h'  => 682,
         ],
         [
             'slug'     => 'transit',
@@ -102,6 +106,10 @@ return [
             'charge'   => '~900 kg',
             'usage'    => 'Restaurants, traiteurs, tournées mixtes',
             'tag'      => 'Le polyvalent',
+            'image'    => 'assets/img/flotte/transit.webp',
+            'image_sm' => 'assets/img/flotte/transit-sm.webp',
+            'image_w'  => 1176,
+            'image_h'  => 669,
         ],
         [
             'slug'     => 'jumpy',
@@ -112,6 +120,10 @@ return [
             'charge'   => '~900 kg',
             'usage'    => 'Centre de Paris, livraisons multi-points',
             'tag'      => 'Le citadin',
+            'image'    => 'assets/img/flotte/jumpy.webp',
+            'image_sm' => 'assets/img/flotte/jumpy-sm.webp',
+            'image_w'  => 1256,
+            'image_h'  => 623,
         ],
         [
             'slug'     => 'caddy',
@@ -122,6 +134,10 @@ return [
             'charge'   => '~600 kg',
             'usage'    => 'Express, petites commandes, rues étroites',
             'tag'      => 'L\'express',
+            'image'    => 'assets/img/flotte/caddy.webp',
+            'image_sm' => 'assets/img/flotte/caddy-sm.webp',
+            'image_w'  => 1313,
+            'image_h'  => 644,
         ],
     ],
 
