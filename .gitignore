@@ -7,3 +7,6 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# caches python des outils
+__pycache__/

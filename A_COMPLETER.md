@@ -89,9 +89,10 @@ Si `mail()` est désactivé par l'hébergeur, activer le bloc `smtp` (voir `READ
 
 ## 7. Visuels — ⚠️ avant toute campagne
 
-Les photos livrées sont des **visuels de démonstration générés** : les camionnettes portent
-l'habillage DST (bandeau noir + filet jaune), les chauffeurs ont le gilet jaune avec l'écusson
-DST, mais ce ne sont ni les vrais véhicules, ni les vrais chauffeurs, ni les vraies adresses.
+Les photos livrées sont des **visuels de démonstration générés** : le logo officiel y est
+appliqué en perspective sur les caissons (`tools/wrap_photos.py`) et sur les gilets des
+chauffeurs (écusson crème cousu). Ce ne sont pourtant ni les vrais véhicules, ni les vrais
+chauffeurs, ni les vraies adresses.
 À remplacer par un reportage photo réel dans `assets/img/photos/` (mêmes noms de fichiers =
 aucune modification de code) :
 
@@ -112,7 +113,10 @@ aucune modification de code) :
 | `assets/img/flotte/*.svg` | silhouettes à l'échelle du comparateur (à garder, recoloriées) |
 
 Après remplacement, régénérer les variantes `-640`, `-1100`, `-1600` (jpg + webp) et `-lqip`
-avec le script `tools/photos.py`, sinon le site retombe sur le `.jpg` seul (aucune casse).
+avec `tools/photos.py`, sinon le site retombe sur le `.jpg` seul (aucune casse).
+
+Si les vraies photos arrivent déjà habillées, il suffit de les déposer sous le nom définitif
+et de ne pas lancer `tools/wrap_photos.py` : le logo y sera déjà, en vrai.
 
 Après remplacement, régénérer les variantes `-640`, `-1100` (webp) et `-lqip` si l'on veut
 conserver l'effet de chargement progressif — sinon le `.jpg` seul suffit.

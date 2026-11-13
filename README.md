@@ -84,6 +84,7 @@ Le serveur intégré de PHP ne lit pas `.htaccess` : c'est normal, tout fonction
 │   ├── img/
 │   │   ├── brand/         logo officiel (4 teintes)
 │   │   ├── photos/        la flotte en photos (640/1100/1600 + webp + lqip)
+│   │   │                  src-*.jpg = les mêmes prises de vue, véhicules vierges
 │   │   ├── flotte/        silhouettes à l'échelle (comparateur de gabarits)
 │   │   └── frais/ scenes/ produits et décors (héritage de la v1)
 │   └── video/frais.mp4    film du hero, en boucle (+ affiche webp/jpg)
@@ -135,6 +136,20 @@ deux camionnettes) est fourni en quatre teintes dans `assets/img/brand/` :
 | `logo-ink.svg` | aubergine, sur fond clair (en-tête) |
 | `logo-cream.svg` | crème, sur fond sombre (pied de page) |
 | `logo-yellow.svg` | jaune, pour les aplats aubergine |
+
+Le logo est aussi **posé sur les véhicules et les gilets** : les photos de tournée sont prises
+sur des véhicules vierges, puis le logo y est appliqué en perspective, en mode produit — il
+prend la lumière, les plis et les reflets du panneau comme un adhésif imprimé. La chaîne
+complète est dans `tools/` : `livery.py` (homographie 4 points + composition) et
+`wrap_photos.py` (les coordonnées des panneaux, image par image). Relancer après avoir
+remplacé une photo :
+
+```bash
+pip install pillow
+python3 tools/wrap_photos.py            # toutes les photos
+python3 tools/wrap_photos.py hero-01    # une seule
+python3 tools/photos.py assets/img/photos/hero-01.jpg   # puis les tailles
+```
 
 `brand_mark($class, $tone)` (dans `partials/logo.php`) pose l'image ; `favicon.svg`,
 `favicon-32.png`, `apple-touch-icon.png`, `icon-192/512.png` et le manifest en dérivent. Les
