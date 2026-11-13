@@ -743,8 +743,11 @@ function initFloating() {
 
 /* --------------------------------------------------------------------------
    Fonds vidéo (toutes les vidéos du site)
-   Autoplay + boucle, chargement à l'approche de la section, pause hors écran.
-   Coupure totale si prefers-reduced-motion ou économie de données.
+   Autoplay + boucle, chargement au plus près de la section, pause hors écran.
+   La lecture est retentée dès que le média est prêt, puis au premier geste
+   utilisateur (certains navigateurs mobiles refusent l'autoplay en économie
+   d'énergie). Coupure totale uniquement en économie de données : ces vidéos
+   sont des fonds muets explicitement demandés, y compris en mouvement réduit.
    -------------------------------------------------------------------------- */
 function initBackgroundVideos() {
     const videos = $$('[data-bg-video]');
@@ -752,7 +755,7 @@ function initBackgroundVideos() {
 
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     const saveData = conn && (conn.saveData || /2g/.test(conn.effectiveType || ''));
-    const canPlay = !reduced && !saveData;
+    const canPlay = !saveData;
 
     const pauseAll = () => videos.forEach((v) => { try { v.pause(); } catch (e) {} });
 
@@ -768,34 +771,95 @@ function initBackgroundVideos() {
         return;
     }
 
+    /* Lecture garantie : on réessaie quand le média peut jouer, et au premier
+       geste si le navigateur a bloqué l'autoplay (iOS économie d'énergie). */
+    const ensurePlay = (video) => {
+        if (!video.paused || !video.isConnected) return;
+        const attempt = video.play();
+        if (!attempt || !attempt.catch) return;
+
+        attempt.catch(() => {
+            const retry = () => {
+                if (!video.isConnected) return;
+                const p = video.play();
+                if (p && p.catch) p.catch(() => {});
+            };
+
+            if (video.readyState >= 2) {
+                retry();
+            } else {
+                video.addEventListener('loadeddata', retry, { once: true });
+                video.addEventListener('canplay', retry, { once: true });
+            }
+
+            const kick = () => {
+                retry();
+                window.removeEventListener('pointerdown', kick);
+                window.removeEventListener('touchstart', kick);
+                window.removeEventListener('keydown', kick);
+            };
+            window.addEventListener('pointerdown', kick, { once: true, passive: true });
+            window.addEventListener('touchstart', kick, { once: true, passive: true });
+            window.addEventListener('keydown', kick, { once: true });
+        });
+    };
+
     const visible = new Set();
 
     videos.forEach((video) => {
-        video.autoplay = false;
-        video.preload = 'none';
+        /* Le hero garde son autoplay natif (il est au-dessus de la ligne de
+           flottaison) ; les autres vidéos ne se chargent qu'à l'approche. */
+        const isHero = video.classList.contains('hero__video');
+        if (isHero) {
+            video.preload = 'auto';
+        } else {
+            video.autoplay = false;
+            video.preload = 'none';
+            /* Aucun octet n'est demandé avant l'approche de la section. */
+            video.querySelectorAll('source').forEach((src) => {
+                src.dataset.src = src.getAttribute('src');
+                src.removeAttribute('src');
+            });
+            try {
+                video.load();
+            } catch (e) {}
+        }
 
-        const play = () => {
-            if (!video.getAttribute('data-loaded')) {
-                video.setAttribute('data-loaded', '1');
+        const start = () => {
+            /* Rétablit les sources retirées : le téléchargement démarre maintenant. */
+            let restored = false;
+            video.querySelectorAll('source').forEach((src) => {
+                if (!src.getAttribute('src') && src.dataset.src) {
+                    src.setAttribute('src', src.dataset.src);
+                    restored = true;
+                }
+            });
+            if (restored || video.readyState === 0) {
                 try {
                     video.load();
                 } catch (e) {}
             }
-            const promise = video.play();
-            if (promise && promise.catch) promise.catch(() => {});
+            ensurePlay(video);
         };
 
+        /* Aucun codec pris en charge : on marque le conteneur pour garder le
+           poster net (le retrait des sources en mode différé ne compte pas). */
+        video.addEventListener('error', () => {
+            if (video.error && video.querySelector('source[src]')) {
+                video.classList.add('is-unavailable');
+            }
+        });
+
         if (!('IntersectionObserver' in window)) {
-            play();
+            start();
             return;
         }
 
-        /* La vidéo ne se charge qu'à 400 px de la section : le poids initial reste léger. */
         const io = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     visible.add(video);
-                    if (!document.hidden) play();
+                    if (!document.hidden) start();
                 } else {
                     visible.delete(video);
                     try {
@@ -813,14 +877,9 @@ function initBackgroundVideos() {
             pauseAll();
             return;
         }
-        visible.forEach((video) => {
-            const promise = video.play();
-            if (promise && promise.catch) promise.catch(() => {});
-        });
+        visible.forEach((video) => ensurePlay(video));
     });
 
-    /* Changement de préférence (mouvement réduit) : on recharge la page pour
-       appliquer proprement l'état « poster seul ». */
     reduceQuery.addEventListener?.('change', pauseAll);
 }
 

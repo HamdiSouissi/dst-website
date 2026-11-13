@@ -118,7 +118,7 @@ Le site est livré avec des **visuels d'illustration** pour ne jamais afficher d
 |---|---|---|
 | Photo du hero (poster) | `assets/img/hero-poster.webp` (+ `-sm`) | Photo réelle d'une camionnette DST en tournée, Paris en arrière-plan |
 | Camionnette du hero | `assets/img/flotte/master.webp` (+ `-sm`) | Photo du véhicule réel (mêmes dimensions) |
-| Vidéos de fond (5) | `assets/video/{hero,flotte,engagements,methode,devis}.mp4` | Remplacer par des plans DST plus récents : sans son, 1280×720, boucle propre, < 1 Mo par fichier |
+| Vidéos de fond (5) | `assets/video/{hero,flotte,engagements,methode,devis}.mp4` | Remplacer par des plans DST plus récents : sans son, 1280×720, boucle propre, < 1,5 Mo par fichier. Mettre à jour le paramètre `?v=` dans le partial après remplacement |
 | Posters des vidéos | `assets/img/{hero,flotte,engagements,devis,methode}-poster.webp` | Première image de chaque vidéo, même cadrage |
 | Camionnettes | Photos détourées de démonstration + logo noir DST dans `assets/img/flotte/` | Photos réelles des 4 véhicules DST, même cadrage trois quarts avant |
 | Secteurs (8 tuiles) | `assets/img/secteurs/*.webp` (+ `-sm`) | Photos réelles : restaurant, traiteur, boulangerie, primeur, poissonnerie, épicerie, dark kitchen, grossiste |

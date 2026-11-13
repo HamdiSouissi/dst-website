@@ -217,9 +217,10 @@ storage/                   Données du formulaire (protégées)
   `sameAs` réseaux sociaux) et `FAQPage`.
 - `sitemap.xml`, `robots.txt`, `site.webmanifest`, favicons SVG/PNG.
 - Images WebP, `srcset`/`sizes`, `loading="lazy"`, dimensions renseignées (CLS maîtrisé).
-- Fonds vidéo `muted playsinline loop autoplay` + poster WebP ; chargés seulement à l'approche de la
-  section (IntersectionObserver, `preload="none"`), mis en pause hors écran, coupés si
-  `prefers-reduced-motion` ou `saveData`.
+- Fonds vidéo `muted playsinline loop` + poster WebP ; seule la vidéo du hero est chargée au départ,
+  les quatre autres ne le sont qu'à l'approche de leur section (IntersectionObserver, sources
+  retirées puis rétablies), mises en pause hors écran, coupées uniquement si `saveData`.
+  La lecture est relancée au premier geste si le navigateur bloque l'autoplay.
 - GSAP et Lenis en `defer` ; animations limitées à `transform` / `opacity`.
 - `.htaccess` : HTTPS, compression, cache long, en-têtes de sécurité, CSP adaptée aux CDN.
 - Navigation clavier complète, focus visible jaune, lien d'évitement, modales avec focus piégé,
@@ -260,7 +261,11 @@ storage/                   Données du formulaire (protégées)
   transition de fond.
 - Les vidéos de section sont encodées à partir des rushes DST : 960×540 à 1280×720, 5 à 9 s,
   H.264 sans son, boucles raccordées (fondu enchaîné ou aller-retour) et `faststart` pour un
-  démarrage immédiat. Le total des cinq vidéos reste sous 3,1 Mo.
+  démarrage immédiat. Le total des cinq vidéos reste sous 3,3 Mo.
+- Les URL de vidéos et de posters portent un `?v=<empreinte>` : le cache `immutable` d'un an du
+  `.htaccess` ne peut plus servir un ancien fichier après remplacement.
+- Côté serveur, les MP4 doivent accepter les requêtes `Range` (Apache et la plupart des hébergeurs
+  le font nativement) : sans cela, Safari et iOS refusent de lire la vidéo.
 - Les camionnettes sont des photos WebP transparentes, servies en `srcset` (≈1200 px / 700 px) avec
   `sizes`, un préchargement `imagesrcset`/`imagesizes` et des attributs `width`/`height` explicites
   pour éviter tout décalage de mise en page.

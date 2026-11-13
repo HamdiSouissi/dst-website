@@ -106,7 +106,7 @@ $jsonLd = [
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="preload" as="image" href="assets/img/hero-poster.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/hero-poster.webp?v=26a213d3" fetchpriority="high">
 <link rel="preload" as="image" href="assets/img/flotte/master.webp" imagesrcset="assets/img/flotte/master-sm.webp 700w, assets/img/flotte/master.webp 1270w" imagesizes="(max-width: 899px) 92vw, 54vw" type="image/webp" fetchpriority="high">
 
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&amp;display=swap">

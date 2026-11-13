@@ -6,9 +6,9 @@ $frozen = !empty($config['services_options']['frozen']);
 ?>
 <section class="fleet section" id="flotte" data-theme="dark" aria-labelledby="fleet-title">
     <div class="section__bg" aria-hidden="true">
-        <video class="bg-video" data-bg-video autoplay muted loop playsinline preload="none"
-               poster="assets/img/flotte-poster.webp" tabindex="-1" disablepictureinpicture>
-            <source src="assets/video/flotte.mp4" type="video/mp4">
+        <video class="bg-video" data-bg-video muted loop playsinline preload="none"
+               poster="assets/img/flotte-poster.webp?v=27d4d574" tabindex="-1" disablepictureinpicture>
+            <source src="assets/video/flotte.mp4?v=8b10d503" type="video/mp4">
         </video>
         <span class="section__bg-scrim"></span>
     </div>

@@ -7,10 +7,10 @@ $trust = $config['stats']['trust'];
     <div class="container commit__grid">
         <figure class="commit__visual" data-doors>
             <div class="commit__media">
-                <video class="bg-video bg-video--media" data-bg-video autoplay muted loop playsinline
-                       preload="none" poster="assets/img/engagements-poster.webp"
+                <video class="bg-video bg-video--media" data-bg-video muted loop playsinline
+                       preload="none" poster="assets/img/engagements-poster.webp?v=bc7cfbc5"
                        aria-hidden="true" tabindex="-1" disablepictureinpicture>
-                    <source src="assets/video/engagements.mp4" type="video/mp4">
+                    <source src="assets/video/engagements.mp4?v=6e87e90a" type="video/mp4">
                 </video>
                 <span class="sector__shutter sector__shutter--left" aria-hidden="true"></span>
                 <span class="sector__shutter sector__shutter--right" aria-hidden="true"></span>

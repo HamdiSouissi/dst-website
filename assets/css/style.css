@@ -1141,9 +1141,11 @@ code {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: .42;
-    filter: grayscale(.4) contrast(1.06) brightness(.82);
+    object-position: center 42%;
+    opacity: 1;
+    filter: contrast(1.06) saturate(1.06) brightness(.82);
     transform: scale(1.04);
+    /* La vidéo reste nettement visible : le voile ne s'épaissit que sous le texte. */
 }
 
 .hero__bg::before {
@@ -1152,8 +1154,8 @@ code {
     inset: 0;
     z-index: 2;
     background:
-        linear-gradient(90deg, rgba(14, 13, 11, .94) 0%, rgba(14, 13, 11, .72) 42%, rgba(14, 13, 11, .28) 72%, rgba(14, 13, 11, .6) 100%),
-        linear-gradient(0deg, rgba(14, 13, 11, .96) 2%, rgba(14, 13, 11, .1) 46%, rgba(14, 13, 11, .78) 100%);
+        linear-gradient(90deg, rgba(14, 13, 11, .92) 0%, rgba(14, 13, 11, .8) 26%, rgba(14, 13, 11, .38) 46%, rgba(14, 13, 11, .05) 66%, rgba(14, 13, 11, .34) 100%),
+        linear-gradient(0deg, rgba(14, 13, 11, .94) 0%, rgba(14, 13, 11, .12) 34%, rgba(14, 13, 11, 0) 62%);
 }
 
 .hero__bg::after {
@@ -1195,7 +1197,7 @@ code {
     position: absolute;
     inset: 0;
     z-index: 5;
-    background: radial-gradient(120% 100% at 60% 40%, transparent 42%, rgba(5, 7, 6, .68) 100%);
+    background: radial-gradient(125% 105% at 58% 38%, transparent 52%, rgba(5, 7, 6, .5) 100%);
     pointer-events: none;
 }
 
@@ -5717,19 +5719,10 @@ html[data-surface="light"] .route-layer__dot {
     z-index: 1;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .bg-video {
-        display: none;
-    }
-
-    .section__bg {
-        background: transparent;
-    }
-
-    /* Le cadre des engagements garde une image fixe, sans mouvement. */
-    .commit__media {
-        background: url("../img/engagements-poster.webp") center / cover no-repeat;
-    }
+/* Fonds vidéo indisponibles (codec non pris en charge, économie de données) :
+   le poster natif de la balise suffit, aucun cadre vide n'apparaît. */
+.bg-video.is-unavailable {
+    opacity: 1;
 }
 
 /* Sans JavaScript : l'attribut autoplay suffit, le poster couvre l'attente. */
