@@ -4,6 +4,10 @@
    petite camionnette qui suit la courbe de température.
    ========================================================================== */
 
+export function showColdWatermark() {
+    document.querySelector('.cold')?.classList.add('is-watermark-in');
+}
+
 export function positionColdCurveVan(progress = 1) {
     const curve = document.querySelector('[data-cold-curve]');
     const van = document.querySelector('[data-cold-van]');
@@ -34,7 +38,43 @@ export function initColdChain(gsap, ScrollTrigger, reduced) {
 
     if (!pinEl || !curve) return;
 
+    const watermark = section.querySelector('[data-cold-watermark]');
     const curveLength = curve.getTotalLength ? curve.getTotalLength() : 1;
+
+    /* Filigrane du logo : apparition + dérive lente au scroll.
+       Le repli (sans GSAP, mouvement réduit) affiche simplement le filigrane. */
+    if (watermark) {
+        if (reduced) {
+            section.classList.add('is-watermark-in');
+        } else {
+            gsap.set(watermark, { opacity: 0, scale: .86, rotate: -10 });
+            gsap.to(watermark, {
+                opacity: .055,
+                scale: 1,
+                rotate: -10,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 85%',
+                    end: 'top 25%',
+                    scrub: 1.1,
+                },
+            });
+            /* Dérive supplémentaire sur toute la hauteur de la section :
+               le filigrane « respire » pendant que les étapes défilent. */
+            gsap.to(watermark, {
+                yPercent: -12,
+                rotate: -4,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1.4,
+                },
+            });
+        }
+    }
 
     gsap.set(curve, { strokeDashoffset: 1 });
     if (proof) gsap.set(proof, { opacity: 0, y: 10 });

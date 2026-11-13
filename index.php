@@ -106,6 +106,6 @@ $contact = $config['contact'];
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
-<script type="module" src="assets/js/main.js?v=1.1.5"></script>
+<script type="module" src="assets/js/main.js?v=1.1.6"></script>
 </body>
 </html>

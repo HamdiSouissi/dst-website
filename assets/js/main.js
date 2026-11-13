@@ -3,11 +3,11 @@
    Lenis, GSAP, header, curseur, révélations, transitions de fond, modales.
    ========================================================================== */
 
-import { initHero, refreshHero } from './hero.js?v=1.1.5';
-import { initColdChain, positionColdCurveVan } from './coldchain.js?v=1.1.5';
-import { initFleet } from './fleet.js?v=1.1.5';
+import { initHero, refreshHero } from './hero.js?v=1.1.6';
+import { initColdChain, positionColdCurveVan, showColdWatermark } from './coldchain.js?v=1.1.6';
+import { initFleet } from './fleet.js?v=1.1.6';
 import { initMap } from './map.js';
-import { initQuote } from './quote.js?v=1.1.5';
+import { initQuote } from './quote.js?v=1.1.6';
 import { initCounters } from './counters.js';
 import { initRoute } from './route.js';
 
@@ -1016,12 +1016,32 @@ function initCommitments(gsap, ScrollTrigger, reduced) {
                 if (line) {
                     gsap.to(line, { scaleX: 1, duration: .9, delay: i * .05, ease: 'power2.out' });
                 }
+                /* DrawSVG anime chaque trait, puis on rend la main au SVG :
+                   sans ce clear, stroke-dasharray restait à 0 et l'icône
+                   devenait invisible. */
                 if (icon && window.DrawSVGPlugin) {
-                    gsap.fromTo(icon, { drawSVG: '0%' }, { drawSVG: '100%', duration: .9, ease: 'power2.inOut' });
+                    gsap.fromTo(icon,
+                        { drawSVG: '0%' },
+                        {
+                            drawSVG: '100%',
+                            duration: .9,
+                            ease: 'power2.inOut',
+                            onComplete: () => gsap.set(icon, { clearProps: 'strokeDasharray,strokeDashoffset' }),
+                        });
                 }
             },
         });
     });
+
+    /* Repli : plus tard, aucune icône ne doit rester effacée par un dasharray. */
+    window.setTimeout(() => {
+        document.querySelectorAll('.commit-item__icon svg').forEach((svg) => {
+            if (getComputedStyle(svg).strokeDasharray.startsWith('0px')) {
+                svg.style.strokeDasharray = '';
+                svg.style.strokeDashoffset = '';
+            }
+        });
+    }, 2500);
 
     const band = document.querySelector('.trust-band');
     if (band && !reduced) {
@@ -1098,6 +1118,11 @@ function noGsapFallback() {
     $$('.sector__shutter').forEach((s) => { s.style.display = 'none'; });
     $$('[data-cold-curve]').forEach((p) => { p.style.strokeDashoffset = '0'; });
     positionColdCurveVan(1);
+    showColdWatermark();
+    $$('.commit-item__icon svg').forEach((svg) => {
+        svg.style.strokeDasharray = '';
+        svg.style.strokeDashoffset = '';
+    });
     $$('[data-commit-line]').forEach((s) => { s.style.transform = 'none'; });
     const proof = $('[data-cold-proof]');
     if (proof) proof.classList.add('is-visible');

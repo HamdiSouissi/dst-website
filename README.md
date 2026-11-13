@@ -217,6 +217,14 @@ storage/                   Données du formulaire (protégées)
   `sameAs` réseaux sociaux) et `FAQPage`.
 - `sitemap.xml`, `robots.txt`, `site.webmanifest`, favicons SVG/PNG.
 - Images WebP, `srcset`/`sizes`, `loading="lazy"`, dimensions renseignées (CLS maîtrisé).
+- Icônes de la section « engagements » : DrawSVG anime chaque trait puis
+  `clearProps: strokeDasharray, strokeDashoffset`. Sans ce nettoyage, le SVG restait
+  avec `stroke-dasharray: 0px` et l'icône devenait invisible. Un repli à 2,5 s et le
+  mode sans GSAP remettent aussi le tracé à zéro.
+- Section « chaîne du froid » : le logo DST est posé en filigrane (`img.cold__watermark`,
+  `aria-hidden`), révélé par deux `ScrollTrigger` en `scrub` (opacité + échelle, puis
+  dérive verticale et rotation sur toute la hauteur de la section). En
+  `prefers-reduced-motion`, le filigrane est simplement affiché.
 - Fonds vidéo `muted playsinline loop` + poster WebP ; seule la vidéo du hero est chargée au départ,
   les quatre autres ne le sont qu'à l'approche de leur section (IntersectionObserver, sources
   retirées puis rétablies), mises en pause hors écran, coupées uniquement si `saveData`.
@@ -261,7 +269,9 @@ storage/                   Données du formulaire (protégées)
   transition de fond.
 - Les vidéos de section sont encodées à partir des rushes DST : 960×540 à 1280×720, 5 à 9 s,
   H.264 sans son, boucles raccordées (fondu enchaîné ou aller-retour) et `faststart` pour un
-  démarrage immédiat. Le total des cinq vidéos reste sous 3,3 Mo.
+  démarrage immédiat. Le total des cinq vidéos reste sous 3,8 Mo (hero : 1,3 Mo,
+  1280×720, 7,2 s). Le hero part d'un plan d'avenue où la camionnette DST s'éloigne :
+  le mouvement est continu sur toute la boucle, sans temps mort.
 - Les URL de vidéos et de posters portent un `?v=<empreinte>` : le cache `immutable` d'un an du
   `.htaccess` ne peut plus servir un ancien fichier après remplacement.
 - Côté serveur, les MP4 doivent accepter les requêtes `Range` (Apache et la plupart des hébergeurs

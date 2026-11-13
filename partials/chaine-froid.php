@@ -8,6 +8,8 @@ $steps = [
 ?>
 <section class="cold" id="chaine" data-theme="dark" aria-labelledby="cold-title">
     <div class="cold__pin" data-cold-pin>
+        <img class="cold__watermark" src="assets/img/logo-dst-givre.svg" alt=""
+             aria-hidden="true" decoding="async" data-cold-watermark>
         <div class="container cold__grid">
             <div class="cold__copy">
                 <p class="eyebrow"><span class="eyebrow__dash"></span>01 — La chaîne du froid</p>
