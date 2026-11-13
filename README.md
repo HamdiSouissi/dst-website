@@ -137,11 +137,11 @@ Le site est livré **complet et fonctionnel** avec :
 - le **logo officiel** fourni (`assets/img/logo-dst.svg`), décliné en citron pour l'en-tête, le pied
   de page et le préchargeur, et en noir pour les favicons, l'Open Graph et l'habillage des vans ;
 - des **scènes de livraison générées à partir des camionnettes DST** dans `assets/img/services/`
-  (route, chargement, déchargement, chauffeurs avec badge DST sur le gilet) et une photo de
-  `assets/img/chargement.webp` montrant un caisson ouvert propre avec des cartons ;
+  (route, chargement, déchargement, chauffeurs avec badge DST sur le gilet) ;
 - des **photographies d'illustration** dans `assets/img/secteurs/` pour le bento des secteurs ;
-- une **vidéo de hero** générée à partir de l'image de Paris (`assets/video/hero.mp4`), 8 s, 170 Ko,
-  sans son, avec poster WebP.
+- **cinq vidéos issues des rushes Google Drive de DST** (camionnettes siglées DST, chauffeurs au gilet
+  marqué, chargements et livraisons à Paris), compressées en H.264 sans son, en boucle, utilisées
+  exclusivement comme fonds : hero, flotte, engagements, comment ça marche et devis.
 
 Pour utiliser les vraies photos de la flotte :
 
@@ -203,8 +203,8 @@ assets/
   js/map.js                Carte IDF
   js/quote.js              Formulaire multi-étapes
   js/counters.js           Compteurs à rouleaux
-  img/                     WebP, favicons, og-image
-  video/hero.mp4           Vidéo du hero
+  img/                     WebP, posters vidéo, favicons, og-image
+  video/                   Fonds vidéo compressés (hero, flotte, engagements, methode, devis)
 storage/                   Données du formulaire (protégées)
 ```
 
@@ -217,7 +217,9 @@ storage/                   Données du formulaire (protégées)
   `sameAs` réseaux sociaux) et `FAQPage`.
 - `sitemap.xml`, `robots.txt`, `site.webmanifest`, favicons SVG/PNG.
 - Images WebP, `srcset`/`sizes`, `loading="lazy"`, dimensions renseignées (CLS maîtrisé).
-- Vidéo `muted playsinline loop autoplay` + poster ; coupée si `prefers-reduced-motion` ou `saveData`.
+- Fonds vidéo `muted playsinline loop autoplay` + poster WebP ; chargés seulement à l'approche de la
+  section (IntersectionObserver, `preload="none"`), mis en pause hors écran, coupés si
+  `prefers-reduced-motion` ou `saveData`.
 - GSAP et Lenis en `defer` ; animations limitées à `transform` / `opacity`.
 - `.htaccess` : HTTPS, compression, cache long, en-têtes de sécurité, CSP adaptée aux CDN.
 - Navigation clavier complète, focus visible jaune, lien d'évitement, modales avec focus piégé,
@@ -244,17 +246,21 @@ storage/                   Données du formulaire (protégées)
 | Couleurs | `assets/css/style.css`, section `:root` |
 | Typographies | `partials/head.php` + variables `--font-*` |
 | Textes des services / secteurs / FAQ | `config.php` |
-| Photo des engagements | `assets/img/chargement.webp` |
+| Vidéo des engagements | `assets/video/engagements.mp4` + `assets/img/engagements-poster.webp` |
 | Image Open Graph | `assets/img/og-image.jpg` (1200 × 630) |
-| Vidéo du hero | `assets/video/hero.mp4` + `assets/img/hero-poster.webp` |
+| Fonds vidéo | `assets/video/{hero,flotte,engagements,methode,devis}.mp4` + `assets/img/*-poster.webp` |
 | Grand « DST » du footer | `partials/footer.php` |
 
 ---
 
 ## 8. Notes techniques
 
-- Le fond de page est interpolé au scroll entre carbone et givre par `main.js` ; les sections n'ont
-  volontairement pas de fond propre pour que la transition reste continue.
+- Le fond de page est interpolé au scroll entre carbone et givre par `main.js` ; les sections vidéo
+  (flotte, méthode, devis) gardent un voile sombre local pour rester lisibles, sans casser la
+  transition de fond.
+- Les vidéos de section sont encodées à partir des rushes DST : 960×540 à 1280×720, 5 à 9 s,
+  H.264 sans son, boucles raccordées (fondu enchaîné ou aller-retour) et `faststart` pour un
+  démarrage immédiat. Le total des cinq vidéos reste sous 3,1 Mo.
 - Les camionnettes sont des photos WebP transparentes, servies en `srcset` (≈1200 px / 700 px) avec
   `sizes`, un préchargement `imagesrcset`/`imagesizes` et des attributs `width`/`height` explicites
   pour éviter tout décalage de mise en page.

@@ -7,8 +7,11 @@ $trust = $config['stats']['trust'];
     <div class="container commit__grid">
         <figure class="commit__visual" data-doors>
             <div class="commit__media">
-                <img src="assets/img/chargement.webp" alt="Camionnette frigorifique DST propre, caisson ouvert et chargée de cartons de produits frais"
-                     width="1200" height="2150" loading="lazy" decoding="async">
+                <video class="bg-video bg-video--media" data-bg-video autoplay muted loop playsinline
+                       preload="none" poster="assets/img/engagements-poster.webp"
+                       aria-hidden="true" tabindex="-1" disablepictureinpicture>
+                    <source src="assets/video/engagements.mp4" type="video/mp4">
+                </video>
                 <span class="sector__shutter sector__shutter--left" aria-hidden="true"></span>
                 <span class="sector__shutter sector__shutter--right" aria-hidden="true"></span>
             </div>

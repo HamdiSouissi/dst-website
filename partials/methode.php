@@ -6,6 +6,14 @@ $steps = [
 ];
 ?>
 <section class="method section" id="methode" data-theme="dark" aria-labelledby="method-title">
+    <div class="section__bg" aria-hidden="true">
+        <video class="bg-video" data-bg-video autoplay muted loop playsinline preload="none"
+               poster="assets/img/methode-poster.webp" tabindex="-1" disablepictureinpicture>
+            <source src="assets/video/methode.mp4" type="video/mp4">
+        </video>
+        <span class="section__bg-scrim section__bg-scrim--strong"></span>
+    </div>
+
     <div class="container">
         <header class="section-head section-head--dark">
             <p class="eyebrow"><span class="eyebrow__dash"></span>07 — Comment ça marche</p>

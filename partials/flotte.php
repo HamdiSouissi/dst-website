@@ -5,6 +5,14 @@ $first = $fleet[0];
 $frozen = !empty($config['services_options']['frozen']);
 ?>
 <section class="fleet section" id="flotte" data-theme="dark" aria-labelledby="fleet-title">
+    <div class="section__bg" aria-hidden="true">
+        <video class="bg-video" data-bg-video autoplay muted loop playsinline preload="none"
+               poster="assets/img/flotte-poster.webp" tabindex="-1" disablepictureinpicture>
+            <source src="assets/video/flotte.mp4" type="video/mp4">
+        </video>
+        <span class="section__bg-scrim"></span>
+    </div>
+
     <div class="container">
         <header class="section-head section-head--dark">
             <p class="eyebrow"><span class="eyebrow__dash"></span>03 — Notre flotte</p>
@@ -19,7 +27,6 @@ $frozen = !empty($config['services_options']['frozen']);
                 </p>
             </div>
         </header>
-
         <div class="fleet__showroom" data-fleet>
             <div class="fleet__stage" data-fleet-stage>
                 <div class="fleet__backdrop" aria-hidden="true">

@@ -7,8 +7,8 @@ $frozen    = !empty($config['services_options']['frozen']);
 ?>
 <section class="hero" id="top" data-theme="dark" aria-labelledby="hero-title">
     <div class="hero__bg" aria-hidden="true">
-        <video class="hero__video" autoplay muted loop playsinline preload="none"
-               poster="assets/img/hero-poster.webp" data-hero-video>
+        <video class="hero__video" data-bg-video autoplay muted loop playsinline preload="none"
+               poster="assets/img/hero-poster.webp">
             <source src="assets/video/hero.mp4" type="video/mp4">
         </video>
         <div class="hero__grid"></div>

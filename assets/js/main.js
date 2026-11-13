@@ -3,11 +3,11 @@
    Lenis, GSAP, header, curseur, révélations, transitions de fond, modales.
    ========================================================================== */
 
-import { initHero, refreshHero } from './hero.js?v=1.1.4';
-import { initColdChain, positionColdCurveVan } from './coldchain.js?v=1.1.4';
-import { initFleet } from './fleet.js?v=1.1.4';
+import { initHero, refreshHero } from './hero.js?v=1.1.5';
+import { initColdChain, positionColdCurveVan } from './coldchain.js?v=1.1.5';
+import { initFleet } from './fleet.js?v=1.1.5';
 import { initMap } from './map.js';
-import { initQuote } from './quote.js?v=1.1.4';
+import { initQuote } from './quote.js?v=1.1.5';
 import { initCounters } from './counters.js';
 import { initRoute } from './route.js';
 
@@ -742,33 +742,86 @@ function initFloating() {
 }
 
 /* --------------------------------------------------------------------------
-   Vidéo du hero (économie de données)
+   Fonds vidéo (toutes les vidéos du site)
+   Autoplay + boucle, chargement à l'approche de la section, pause hors écran.
+   Coupure totale si prefers-reduced-motion ou économie de données.
    -------------------------------------------------------------------------- */
-function initHeroVideo() {
-    const video = $('[data-hero-video]');
-    if (!video) return;
+function initBackgroundVideos() {
+    const videos = $$('[data-bg-video]');
+    if (!videos.length) return;
+
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     const saveData = conn && (conn.saveData || /2g/.test(conn.effectiveType || ''));
-    if (saveData || reduced) {
-        video.querySelectorAll('source').forEach((s) => s.remove());
-        video.removeAttribute('autoplay');
-        try {
-            video.load();
-        } catch (e) {}
+    const canPlay = !reduced && !saveData;
+
+    const pauseAll = () => videos.forEach((v) => { try { v.pause(); } catch (e) {} });
+
+    if (!canPlay) {
+        videos.forEach((video) => {
+            video.querySelectorAll('source').forEach((s) => s.remove());
+            video.removeAttribute('autoplay');
+            video.classList.add('is-poster-only');
+            try {
+                video.load();
+            } catch (e) {}
+        });
         return;
     }
-    const play = () => {
-        const promise = video.play();
-        if (promise && promise.catch) promise.catch(() => {});
-    };
-    play();
+
+    const visible = new Set();
+
+    videos.forEach((video) => {
+        video.autoplay = false;
+        video.preload = 'none';
+
+        const play = () => {
+            if (!video.getAttribute('data-loaded')) {
+                video.setAttribute('data-loaded', '1');
+                try {
+                    video.load();
+                } catch (e) {}
+            }
+            const promise = video.play();
+            if (promise && promise.catch) promise.catch(() => {});
+        };
+
+        if (!('IntersectionObserver' in window)) {
+            play();
+            return;
+        }
+
+        /* La vidéo ne se charge qu'à 400 px de la section : le poids initial reste léger. */
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    visible.add(video);
+                    if (!document.hidden) play();
+                } else {
+                    visible.delete(video);
+                    try {
+                        video.pause();
+                    } catch (e) {}
+                }
+            });
+        }, { rootMargin: '400px 0px', threshold: 0.01 });
+
+        io.observe(video.closest('.section, .hero, .commit__media, .fleet__showroom') || video);
+    });
+
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-            video.pause();
-        } else {
-            play();
+            pauseAll();
+            return;
         }
+        visible.forEach((video) => {
+            const promise = video.play();
+            if (promise && promise.catch) promise.catch(() => {});
+        });
     });
+
+    /* Changement de préférence (mouvement réduit) : on recharge la page pour
+       appliquer proprement l'état « poster seul ». */
+    reduceQuery.addEventListener?.('change', pauseAll);
 }
 
 /* --------------------------------------------------------------------------
@@ -847,7 +900,7 @@ function initDoors(gsap, ScrollTrigger, reduced) {
     document.querySelectorAll('[data-doors]').forEach((el) => {
         const shutters = Array.from(el.querySelectorAll('.sector__shutter'));
         if (!shutters.length) return;
-        const img = el.querySelector('img');
+        const img = el.querySelector('img, .bg-video--media');
         gsap.set(shutters, { scaleX: 1 });
         ScrollTrigger.create({
             trigger: el,
@@ -1011,7 +1064,7 @@ async function boot() {
     initAnchors();
     initFooterGiant();
     initFloating();
-    initHeroVideo();
+    initBackgroundVideos();
     initBackgroundTheme();
     window.addEventListener('scroll', onBackgroundScroll, { passive: true });
     window.addEventListener('resize', () => {

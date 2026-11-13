@@ -16,6 +16,13 @@ if ($frozen) {
 $frequencies = ['Une fois', 'Plusieurs fois par semaine', 'Tous les jours', 'À définir'];
 ?>
 <section class="quote section" id="devis" data-theme="dark" aria-labelledby="quote-title" data-phone="<?= htmlspecialchars($contact['phone_display'], ENT_QUOTES, 'UTF-8') ?>" data-phone-href="<?= htmlspecialchars($phoneHref, ENT_QUOTES, 'UTF-8') ?>">
+    <div class="section__bg" aria-hidden="true">
+        <video class="bg-video" data-bg-video autoplay muted loop playsinline preload="none"
+               poster="assets/img/devis-poster.webp" tabindex="-1" disablepictureinpicture>
+            <source src="assets/video/devis.mp4" type="video/mp4">
+        </video>
+        <span class="section__bg-scrim"></span>
+    </div>
     <div class="quote__glow" aria-hidden="true"></div>
     <div class="container quote__grid">
         <div class="quote__intro">

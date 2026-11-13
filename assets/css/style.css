@@ -5622,3 +5622,117 @@ html[data-surface="light"] .route-layer__dot {
 .quote-form__alert.is-visible {
     display: block;
 }
+
+/* --------------------------------------------------------------------------
+   31. Fonds vidéo de section — vidéos compressées, lecture en boucle,
+       uniquement décoratives (aucun contrôle, aucun son).
+   -------------------------------------------------------------------------- */
+.section {
+    isolation: isolate;
+}
+
+.section__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--carbone);
+}
+
+.bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 0;
+    pointer-events: none;
+}
+
+.section__bg-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(14, 13, 11, .84) 0%, rgba(14, 13, 11, .72) 42%, rgba(14, 13, 11, .9) 100%),
+        linear-gradient(90deg, rgba(14, 13, 11, .8) 0%, rgba(14, 13, 11, .34) 58%, rgba(14, 13, 11, .7) 100%);
+}
+
+.section__bg-scrim--strong {
+    background:
+        linear-gradient(180deg, rgba(14, 13, 11, .9) 0%, rgba(14, 13, 11, .82) 45%, rgba(14, 13, 11, .94) 100%);
+}
+
+/* Flotte : la vidéo est un bandeau cinéma derrière l'en-tête de section,
+   elle s'efface avant le showroom pour laisser les camionnettes détourées nettes. */
+.fleet .section__bg {
+    inset: 0 0 auto 0;
+    height: min(74vh, 660px);
+    background: transparent;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+}
+
+.fleet .bg-video {
+    opacity: .62;
+    object-position: center 42%;
+    filter: grayscale(.2) contrast(1.06) brightness(.8);
+}
+
+.fleet .section__bg-scrim {
+    background:
+        linear-gradient(90deg, rgba(14, 13, 11, .9) 0%, rgba(14, 13, 11, .48) 52%, rgba(14, 13, 11, .82) 100%),
+        linear-gradient(180deg, rgba(14, 13, 11, .45) 0%, rgba(14, 13, 11, .12) 55%, rgba(14, 13, 11, .92) 100%);
+}
+
+/* Devis : vidéo de livraison, voilée pour garder le formulaire lisible */
+.quote .bg-video {
+    opacity: .4;
+    filter: grayscale(.35) contrast(1.05) brightness(.8);
+}
+
+.quote .section__bg-scrim {
+    background:
+        linear-gradient(180deg, rgba(14, 13, 11, .9) 0%, rgba(14, 13, 11, .74) 50%, rgba(14, 13, 11, .94) 100%),
+        linear-gradient(100deg, rgba(14, 13, 11, .9) 0%, rgba(14, 13, 11, .55) 55%, rgba(14, 13, 11, .82) 100%);
+}
+
+/* Méthode : camionnette de dos, fond sombre */
+.method .bg-video {
+    opacity: .42;
+    filter: grayscale(.3) contrast(1.04) brightness(.78);
+}
+
+/* Engagements : la vidéo remplace la photo dans le cadre 4:5 */
+.bg-video--media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(.85) contrast(1.03) brightness(.95);
+}
+
+.commit__media .bg-video--media {
+    z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bg-video {
+        display: none;
+    }
+
+    .section__bg {
+        background: transparent;
+    }
+
+    /* Le cadre des engagements garde une image fixe, sans mouvement. */
+    .commit__media {
+        background: url("../img/engagements-poster.webp") center / cover no-repeat;
+    }
+}
+
+/* Sans JavaScript : l'attribut autoplay suffit, le poster couvre l'attente. */
+.no-js .section__bg {
+    background: var(--carbone);
+}
